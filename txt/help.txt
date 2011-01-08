@@ -1,0 +1,81 @@
+<h1>Help</h1>
+<p>
+<table>
+<tr><td align="left"><a href="#input">Input Fields</a></td></tr>
+<tr><td align="left"><a href="#output">Output</a></td></tr>
+<tr><td align="left"><a href="#output">Examples</a></td></tr>
+<tr><td align="left"><a href="#output">Related resources</a></td></tr>
+</table>
+</p>
+<p>
+<table><tr><td align="left">
+<a name="input"><H3>Input Fields</H3></a>
+</td></tr></table>
+<li>
+<a id="symmetry_mode"><b>symmetry mode</b></a>
+<p>Select if the complex is cyclic symmetric or non symmetric. Symmetry is used in the sampling procedure for cyclic symmetric structures.
+<br><br>
+</li>
+<li>
+<a id="cn_symmetry"><b>Cn symmetry number</b></a>
+<p>The symmetry order of the ring (3 for trimer, 4 for tetramer etc.).
+<br><br>
+</li>
+<li>
+<a id="map"><b>Complex density map</b></a>
+<p>The assembly density map in MRC format
+<br><br>
+</li>
+<li>
+<a id="resolution"><b>Resolution</b></a>
+<p>The resolution of the assembly density map in angstroms
+<br><br>
+</li>
+<li>
+<li>
+<a id="spacing"><b>Spacing</b></a>
+<p>The dimension of a single voxel
+<br><br>
+</li>
+<li>
+<a id="density_threshold"><b>Density threshold</b></a>
+<p>Consider voxels with density values above the threshold
+<br><br>
+</li>
+<a id="file"><b>Subunit coordinate file</b></a>
+<p>Upload coordinate file of the subunit in PDB format
+<br><br>
+</li>
+<p>
+<table><tr><td align="left">
+<a name="input"><H3>Output</H3></a>
+</td></tr></table>
+<p>
+
+<table><tr>
+       <td><br>
+       The output is a set of models that best fit the density map.</br>
+       <br>The first top ten models are displayed as a table and the complete list
+       of models is found in the transformations ooutput file.</br>
+<p><table><tr><td halign=left><font color=blue><b> Top ten models </b></td>
+</tr><tr>
+<td halign=left><img src="http://salilab.org/~kerenl/output.png" height=300></td>
+</tr><tr>
+</tr>
+</table>
+
+<table><tr><td align="left">
+<a name="input"><H3>Examples</H3></a>
+</td></tr></table>
+<p>To build a chaperon ring, set the input data as follows:
+<p>Number of Cn Symmetry set to 7
+<p>EM density map <a href="http://salilab.org/~kerenl/1oel_10.mrc"><img src="http://salilab.org/~kerenl/file-icon.png"></a>
+<p>Resolution is set to 10
+<p>Spacing is set to 1.5
+<p>Density threshold is set to 0.4
+<p>Subunit <a href="http://salilab.org/~kerenl/1oel_subunit.pdb"><img src="http://salilab.org/~kerenl/file-icon.png"></a>
+<table><tr><td align="left">
+<a name="input"><H3>Related resources</H3></a>
+</td></tr></table>
+
+
