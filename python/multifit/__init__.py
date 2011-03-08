@@ -21,7 +21,7 @@ class Job(saliweb.backend.Job):
         
         if symmetry_mode == 1:
             script = """
-export IMP=/netapp/sali/multifit_temp/IMP
+export IMP=/netapp/sali/multifit/IMP
 perl $IMP/modules/cn_multifit/bin/runMSPoints.pl input.pdb
 $IMP/tools/imppy.sh python $IMP/modules/cn_multifit/bin/build_cn_multifit_params.py -- %d input.pdb input.map %f %f %f %f %f %f
 $IMP/tools/imppy.sh $IMP/modules/cn_multifit/bin/symmetric_multifit multifit.param --chimera multifit.chimera.output
@@ -29,7 +29,7 @@ $IMP/tools/imppy.sh $IMP/modules/cn_multifit/bin/symmetric_multifit multifit.par
 
         else:
             script = """
-export IMP=/netapp/sali/multifit_temp/IMP
+export IMP=/netapp/sali/multifit/IMP
 perl $IMP/modules/cn_multifit/bin/runMSPoints.pl input.pdb
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_input.py input.subunit.list.txt %s input.map %f %f 500 %f %f %f 
 """ % (resolution, spacing, threshold, x_origin, y_origin, z_origin)

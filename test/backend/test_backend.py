@@ -1,5 +1,5 @@
 import unittest
-import multifit_temp
+import multifit
 import saliweb.backend
 import saliweb.test
 import tarfile
@@ -11,7 +11,7 @@ class PostProcessTests(saliweb.test.TestCase):
     def test_archive(self):
         """Test archive function"""
         # Make a Multifit Job test job in ARCHIVED state
-        j = self.make_test_job(multifit_temp.Job, 'ARCHIVED') 
+        j = self.make_test_job(multifit.Job, 'ARCHIVED') 
         # Run the rest of this testcase in the job's directory
         d = saliweb.test.RunInDir(j.directory)
         # Make test PDB files and another incidental file

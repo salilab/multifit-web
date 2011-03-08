@@ -1,4 +1,4 @@
-package multifit_temp;
+package multifit;
 use saliweb::frontend;
 use strict;
 
@@ -29,7 +29,7 @@ sub get_navigation_links {
     my $self = shift;
     my $q = $self->cgi;
     return [
-        $q->a({-href=>$self->index_url}, "Multifit Temp Home"),
+        $q->a({-href=>$self->index_url}, "Multifit Home"),
         $q->a({-href=>$self->queue_url}, "Current Queue"),
         $q->a({-href=>$self->help_url}, "Help"),
         $q->a({-href=>$self->contact_url}, "Contact")

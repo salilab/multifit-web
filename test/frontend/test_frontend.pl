@@ -4,18 +4,18 @@ use Test::Exception;
 use File::Temp qw(tempdir);
 
 BEGIN {
-    use_ok('multifit_temp');
+    use_ok('multifit');
     use_ok('saliweb::frontend');
 }
 
-my $t = new saliweb::Test('multifit_temp');
+my $t = new saliweb::Test('multifit');
 
 # Test get_navigation_links
 {
     my $frontend = $t->make_frontend();
     my $links = $frontend->get_navigation_links();
     isa_ok($links, 'ARRAY', 'navigation links');
-    like($links->[0], qr#<a href="http://modbase/top/">Multifit Temp Home</a>#,
+    like($links->[0], qr#<a href="http://modbase/top/">Multifit Home</a>#,
          'Index link');
     like($links->[1], qr#<a href="http://modbase/top/queue.cgi">Current Queue</a>#,
          'Queue link');
