@@ -1,0 +1,5 @@
+Import('env')
+
+env.InstallHTML(['img/output.png','img/pdf.gif','img/file-icon.png'],'img')
+env.InstallHTML(['file/1oel_subunit.pdb','file/emd_1080_one_ring.mrc'],'file')
+env.InstallHTML(['js/tab.js','js/tab.css'],'js')
