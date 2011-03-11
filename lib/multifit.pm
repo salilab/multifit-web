@@ -464,6 +464,7 @@ sub display_ok_job {
      my $td = "";
      for ( my $column=0; $column < $total_column; $column++ ){
        my $cc_score = 1-$fit_solution{"cluster size"}[$j]; 
+       my $fitting_score = 1-$fit_solution{"fitting score"}[$j]; 
        my $pdb_file = $fit_solution{"solution filename"}[$j];
        my (@filename) = split (/\./, $pdb_file);
        my $image_file    = "asmb.model." . $filename[2] . ".jpg"; 
@@ -485,7 +486,7 @@ sub display_ok_job {
           $job->get_results_file_url("multifit.output") .
           "\">multifit.output</a>, <a href=\"" .
           $job->get_results_file_url("asmb_models.tar.gz") .
-          "\">asmb_models.tar.gz</a>");
+          "\">asmb_models.tar.gz</a>.");
 
    $return .= $job->get_results_available_time();
 
@@ -497,14 +498,13 @@ sub display_failed_job {
     my $return= $q->p("Your Multifit job '<b>" . $job->name .
                       "</b>' failed to produce any output models.");
     $return.=$q->p("This is usually caused by incorrect inputs " .
-                   "(e.g. corrupt PDB file).");
-    $return.=$q->p("For a discussion of some common input errors, please see " .
-                   "the " .
-                   $q->a({-href=>$self->help_url . "#errors"}, "help page") .
-                   ".");
-    $return.= $q->p("For more information, you can " .
+                   "(e.g. corrupt PDB file, inappropriate voxel spacing or contour level).");
+    #$return.=$q->p("For a discussion of some common input errors, please see the " .
+    #               $q->a({-href=>$self->help_url . "#errors"}, "help page") .
+    #               ".");
+    $return.= $q->p("For more information, you can download the " .
                     "<a href=\"" . $job->get_results_file_url("failure.log") .
-                    "\">download the Multifit log file</a>." .
+                    "\">Multifit log file</a>." .
                     "<BR>If the problem is not clear from this log, " .
                     "please <a href=\"" .
                     $self->contact_url . "\">contact us</a> for " .
