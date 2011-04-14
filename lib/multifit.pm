@@ -60,7 +60,7 @@ sub get_index_page {
     my $q = $self->cgi;
     my $greeting = <<GREETING;
 <p>Multifit is a computational method for simultaneously fitting atomic structures
-of components into their assembly density map at resolutions as low as 25 A.
+of components into their assembly density map at resolutions as low as 25 &#8491;.
 The component positions and orientations are optimized with respect to a scoring
 function that includes the quality-of-fit of components in the map, the protrusion
 of components from the map envelope, as well as the shape complementarity between

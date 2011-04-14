@@ -123,13 +123,13 @@ rm -rf asmb_models
         for jpg in output_jpgs:
             os.unlink(jpg)
 
-        output_chimerax = glob.glob('*.chimerax')
-        t3 = tarfile.open('output-chimerax.tar.bz2', 'w:bz2')
-        for chimerax in output_chimerax:
-            t2.add(chimerax)
-        t3.close()
-        for jpg in output_chimerax:
-            os.unlink(chimerax)
+        #output_chimerax = glob.glob('*.chimerax')
+        #t3 = tarfile.open('output-chimerax.tar.bz2', 'w:bz2')
+        #for chimerax in output_chimerax:
+        #    t3.add(chimerax)
+        #t3.close()
+        #for chimerax in output_chimerax:
+        #    os.unlink(chimerax)
 
 def get_web_service(config_file):
     db = saliweb.backend.Database(Job)

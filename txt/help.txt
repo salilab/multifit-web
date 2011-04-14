@@ -38,6 +38,9 @@
   <li><a id="subunit_copies"><h5>Number of copies</h5></a>
       <p>The number of subunit copies.
       </p></li>
+  <li><a id="reset"><h5>Reset button</h5></a>
+      <p>Reset all the input fields.
+      </p></li>
 </ul>
 <a name="output"><h4>Output</h4></a>
 <p>
