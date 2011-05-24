@@ -48,10 +48,60 @@
        <br>The first top 20 models are displayed as a table ranked from top-left to bottom-right and the complete list
        of models is found in the transformations output file (multifit.output).</br>
 </p>
+<br>
 <p>
 <h5>Top 20 models</h5>
 </p>
 <img src="html/img/output.png" height=350 />
+<p>
+   <h5>MultiFit.output file</h5>
+   This output file reports MultiFit assembly modeling solutions. Each line of 11 fields defined a single
+   model. The solutions are sorted by fitting scores. 
+</p>
+   <ul>
+     <li><h5>Solution index</h5>
+        <p>The index of the solution.
+        </p></li>
+     <li><h5>Solution filename</h5>
+        <p>Filename of the solution
+        </p></li>
+     <li><h5>Fit rotation</h5>
+        <p>The rotation part (in quaternions) of a transformation found by a fiiting procedure.
+        </p></li>
+     <li><h5>Fit translation</h5>
+        <p>The translation part of a transformation found by a fiiting procedure.
+        </p></li>
+     <li><h5>Match size</h5>
+        <p>If anchor points matching is used, this field stores the size of the match.
+        </p></li>
+     <li><h5>Match average distance</h5>
+        <p>If anchor points matching is used, this field stores the RMSD between the model anchor points
+           and the density anchor points.
+        </p></li>
+     <li><h5>Match cluster size</h5>
+        <p>If anchor points matching is used, this field stores the size of the cluster of matching
+           anchor points.
+        </p></li>
+     <li><h5>Fitting score</h5>
+        <p>The fitting score is defined as 1 - cross correlation score.
+           The cross correlation (CC) score is defined as: <br><br>
+           <img src="html/img/eqn_cc.png" /> <br>where <img src="html/img/eqn_vox.png"> represents all voxels
+           in the density grid that are within two times the map resolution from any of the atoms of
+           the protein; and where the total density of <i>P</i> at grid point <i>i</i> is
+           <img src="html/img/eqn_sum.png" />. The values of the CC score range from 0 to 1, where
+           1 indicates a perfect fit. 
+        </p></li>
+     <li><h5>Dock rotation</h5>
+        <p>The rotation part (in quaternions) of a transformation found by a docking procedure.
+        </p></li>
+     <li><h5>Dock translation</h5>
+        <p>The translation part of a transformation found by a docking procedure.
+        </p></li>
+     <li><h5>RMSD to reference</h5>
+        <p>If a reference structure is provided (usually in debugging mode), a RMSD to the reference is
+           reported.
+        </p></li>
+     </ul>
 
 <a name="example"><h4>Examples</h4></a>
 <p>To build a chaperon ring, set the input data as follows:
