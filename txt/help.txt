@@ -84,12 +84,12 @@
         </p></li>
      <li><h5>Fitting score</h5>
         <p>The fitting score is defined as 1 - cross correlation score.
-           The cross correlation (CC) score is defined as: <br><br>
-           <img src="html/img/eqn_cc.png" /> <br>where <img src="html/img/eqn_vox.png"> represents all voxels
+           The cross correlation (<font face="Computer Modern" color="black"><i>CC</i></font>) score is defined as: <br>
+           <img src="html/img/eqn_cc.png" align="middle" /> &nbsp;, where <img src="html/img/eqn_vox.png" /> represents all voxels
            in the density grid that are within two times the map resolution from any of the atoms of
-           the protein; and where the total density of <i>P</i> at grid point <i>i</i> is
-           <img src="html/img/eqn_sum.png" />. The values of the CC score range from 0 to 1, where
-           1 indicates a perfect fit. 
+           the protein; and where the total density of <font color="black"><i>P</i></font> at grid point<font color="black"> <i>i</i> </font>is &nbsp;
+           <img src="html/img/eqn_sum.png" align="middle" /> &nbsp;. The values of the <font face="Computer Modern" color="black"><i>CC</i></font> score range from 0 to 1, where
+           1 indicates a perfect fit.<br>
         </p></li>
      <li><h5>Dock rotation</h5>
         <p>The rotation part (in quaternions) of a transformation found by a docking procedure.
