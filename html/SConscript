@@ -1,5 +1,5 @@
 Import('env')
 
-env.InstallHTML(['img/output.png','img/pdf.gif','img/file-icon.png','img/eqn_cc.png','img/eqn_sum.png','img/eqn_vox.png'],'img')
+env.InstallHTML(['img/output.png','img/pdf.gif','img/file-icon.png','img/eqn_cc.png','img/eqn_sum.png','img/eqn_vox.png','img/EMDBsml.gif','img/BioInfo3Dsmall.png'],'img')
 env.InstallHTML(['file/1oel_subunit.pdb','file/emd_1080_one_ring.mrc'],'file')
 env.InstallHTML(['js/tab.js','js/tab.css'],'js')

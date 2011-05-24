@@ -48,7 +48,25 @@ sub get_footer {
     my $htmlroot = $self->htmlroot;
     return <<FOOTER;
 <div id="address">
-<center><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/20827723">
+<center>
+<hr />
+<table>
+<tr> <td align="center">
+<a target="_blank" href="http://bioinfo3d.cs.tau.ac.il/"><img height="25" src="$htmlroot/img/BioInfo3Dsmall.png" /></a>
+</td><td>
+<a target="_blank" href="http://bioinfo3d.cs.tau.ac.il/">
+<b>BioInfo3D</b></a> Servers for protein structure analysis and modeling.
+</td>
+</tr>
+<tr><td align="center">
+<a target="_blank" href="http://www.emdatabank.org/"><img height="25" src="$htmlroot/img/EMDBsml.gif" /></a>&nbsp;
+</td><td>
+<a target="_blank" href="http://www.emdatabank.org/"><b>EMDB</b></a> Database for electron microscopy density maps.
+</td></tr>
+</table>
+<hr />
+<br />
+<a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/20827723">
 <b>K. Lasker,  M. Topf, A. Sali and H. Wolfson, Journal of Molecular Biology, (2009) <i>388,</i> 180-194</b></a>
 &nbsp;<a href="http://salilab.org/pdf/Lasker_Proteins-StructFunctBioinform_2010a.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
 </div>
