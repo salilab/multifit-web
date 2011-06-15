@@ -1,4 +1,4 @@
-<h1>Multifit Help Pages</h1>
+<h1>MultiFit Help Pages</h1>
 <ul>
   <li><a href="#input">Input Fields</a></li>
   <li><a href="#output">Output</a></li>

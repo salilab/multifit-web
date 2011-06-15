@@ -29,7 +29,7 @@ sub get_navigation_links {
     my $self = shift;
     my $q = $self->cgi;
     return [
-        $q->a({-href=>$self->index_url}, "Multifit Home"),
+        $q->a({-href=>$self->index_url}, "MultiFit Home"),
         $q->a({-href=>$self->queue_url}, "Current Queue"),
         $q->a({-href=>"http://salilab.org/multifit/download/"}, "Download"),
         $q->a({-href=>$self->help_url}, "Help"),
@@ -78,7 +78,7 @@ sub get_index_page {
     my $self = shift;
     my $q = $self->cgi;
     my $greeting = <<GREETING;
-<p>Multifit is a computational method for simultaneously fitting atomic structures
+<p>MultiFit is a computational method for simultaneously fitting atomic structures
 of components into their assembly density map at resolutions as low as 25 &#8491;.
 The component positions and orientations are optimized with respect to a scoring
 function that includes the quality-of-fit of components in the map, the protrusion
@@ -90,12 +90,12 @@ efficiently finds the global minimum in a discrete sampling space.
 
 <p>
 You can also <a href="http://salilab.org/multifit/download/">download the
-Multifit software</a> to run calculations on your own computer.
+MultiFit software</a> to run calculations on your own computer.
 <br />&nbsp;</p>
 GREETING
     return "<div id=\"resulttable\">\n" .
            $q->h2({-align=>"center"},
-                  "Multifit: Fitting of multiple proteins into their assembly density map") .
+                  "MultiFit: Fitting of multiple proteins into their assembly density map") .
            $q->start_form({-name=>"multifit_form", -method=>"post",
                            -action=>$self->submit_url}) .
            $q->table(
@@ -369,7 +369,7 @@ sub get_submit_page {
     $return .=
       $q->p("<BR>You can check on your job at the " .
             "<a href=\"" . $self->queue_url .
-            "\">Multifit current queue page</a>.").
+            "\">MultiFit current queue page</a>.").
       #$q->p("The estimated execution time is ~90 min, depending on the load.").
       $q->p("<BR>If you experience any problems or if you do not receive the results " .
             "for more than 12 hours, please <a href=\"" .
@@ -519,7 +519,7 @@ sub display_ok_job {
 
 sub display_failed_job {
     my ($self, $q, $job) = @_;
-    my $return= $q->p("Your Multifit job '<b>" . $job->name .
+    my $return= $q->p("Your MultiFit job '<b>" . $job->name .
                       "</b>' failed to produce any output models.");
     $return.=$q->p("This is usually caused by incorrect inputs " .
                    "(e.g. corrupt PDB file, inappropriate voxel spacing or contour level).");
@@ -528,7 +528,7 @@ sub display_failed_job {
     #               ".");
     $return.= $q->p("For more information, you can download the " .
                     "<a href=\"" . $job->get_results_file_url("failure.log") .
-                    "\">Multifit log file</a>." .
+                    "\">MultiFit log file</a>." .
                     "<BR>If the problem is not clear from this log, " .
                     "please <a href=\"" .
                     $self->contact_url . "\">contact us</a> for " .
