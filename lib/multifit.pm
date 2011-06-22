@@ -1,6 +1,7 @@
 package multifit;
 use saliweb::frontend;
 use strict;
+use Error qw(:try);
 
 our @ISA = "saliweb::frontend";
 
@@ -31,7 +32,7 @@ sub get_navigation_links {
     return [
         $q->a({-href=>$self->index_url}, "MultiFit Home"),
         $q->a({-href=>$self->queue_url}, "Current Queue"),
-        $q->a({-href=>"http://salilab.org/multifit/download/"}, "Download"),
+        $q->a({-href=>"download.cgi"}, "Download"),
         $q->a({-href=>$self->help_url}, "Help"),
         $q->a({-href=>$self->contact_url}, "Contact")
         #$q->a({-href=>$self->faq_url}, "FAQ"),
@@ -89,7 +90,7 @@ efficiently finds the global minimum in a discrete sampling space.
 <br />&nbsp;</p>
 
 <p>
-You can also <a href="http://salilab.org/multifit/download/">download the
+You can also <a href="download.cgi">download the
 MultiFit software</a> to run calculations on your own computer.
 <br />&nbsp;</p>
 GREETING
@@ -534,6 +535,18 @@ sub display_failed_job {
                     $self->contact_url . "\">contact us</a> for " .
                     "further assistance.");
     return $return;
+}
+
+# This is a bit of a hack; we shouldn't have to do error handling ourselves here
+sub display_download_page {
+    my $self = shift;
+    try {
+        $self->_display_web_page($self->get_text_file('download.txt'));
+    } catch saliweb::frontend::UserError with {
+        $self->handle_user_error(shift);
+    } catch Error with {
+        $self->handle_fatal_error(shift);
+    };
 }
 
 1;
