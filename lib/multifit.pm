@@ -273,6 +273,10 @@ sub get_submit_page {
         throw saliweb::frontend::InputValidationError(
                    "Vector spacing input is missing!");
     }
+    if ($cn_symmetry eq int($cn_symmetry) && $cn_symmetry > 0) {
+        throw saliweb::frontend::InputValidationError(
+                   "Cn symmetry input expects a positive integer.");
+    }
     if ($threshold eq "") {
         throw saliweb::frontend::InputValidationError(
                    "Contour level input is missing!");
