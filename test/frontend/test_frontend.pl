@@ -19,9 +19,12 @@ my $t = new saliweb::Test('multifit');
          'Index link');
     like($links->[1], qr#<a href="http://modbase/top/queue.cgi">Current Queue</a>#,
          'Queue link');
-    like($links->[2], qr#<a href="http://modbase/top/help.cgi\?type=help">Help</a>#,
+    like($links->[2],
+         qr#<a href="http://modbase/top/download.cgi">Download</a>#,
+         'Download link');
+    like($links->[3], qr#<a href="http://modbase/top/help.cgi\?type=help">Help</a>#,
          'Help link');
-    like($links->[3], qr#<a href="http://modbase/top/help.cgi\?type=contact">Contact</a>#,
+    like($links->[4], qr#<a href="http://modbase/top/help.cgi\?type=contact">Contact</a>#,
          'Contact link');
 }
 
