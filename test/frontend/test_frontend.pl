@@ -15,7 +15,7 @@ my $t = new saliweb::Test('multifit');
     my $frontend = $t->make_frontend();
     my $links = $frontend->get_navigation_links();
     isa_ok($links, 'ARRAY', 'navigation links');
-    like($links->[0], qr#<a href="http://modbase/top/">Multifit Home</a>#,
+    like($links->[0], qr#<a href="http://modbase/top/">MultiFit Home</a>#,
          'Index link');
     like($links->[1], qr#<a href="http://modbase/top/queue.cgi">Current Queue</a>#,
          'Queue link');
@@ -59,9 +59,9 @@ my $t = new saliweb::Test('multifit');
                         {name=>'testjob', passwd=>'foo', directory=>'/foo/bar',
                          archive_time=>'2009-01-01 08:45:00'});
     my $ret = $frontend->display_failed_job($frontend->{CGI}, $job);
-    like($ret, '/Your Multifit job.*testjob.*failed to produce any output models.*' .
+    like($ret, '/Your MultiFit job.*testjob.*failed to produce any output models.*' .
                '.*For more information, ' .
-               'you can download the .*failure\.log.*Multifit log file.*' .
+               'you can download the .*failure\.log.*MultiFit log file.*' .
                'contact us/ms', 'display_failed_job');
 }
 
@@ -75,7 +75,7 @@ my $t = new saliweb::Test('multifit');
     ok(chdir($tmpdir), "chdir into tempdir");
 
     my $ret = $frontend->get_results_page($job);
-    like($ret, '/Your Multifit job.*testjob.*failed to produce any output models./',
+    like($ret, '/Your MultiFit job.*testjob.*failed to produce any output models./',
          'get_results_page (failed job)');
 
     ok(open(FH, "> multifit.output"), "Open multifit.output");
