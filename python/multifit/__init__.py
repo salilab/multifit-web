@@ -23,15 +23,21 @@ class Job(saliweb.backend.Job):
             script = """
 export IMP=/netapp/sali/multifit/IMP
 perl $IMP/modules/cn_multifit/bin/runMSPoints.pl input.pdb
-$IMP/tools/imppy.sh python $IMP/modules/cn_multifit/bin/build_cn_multifit_params.py -n 20 -- %d input.pdb input.map %f %f %f %f %f %f
+$IMP/tools/imppy.sh python $IMP/modules/cn_multifit/bin/build_cn_multifit_params.py -n 20 -- %d input.pdb input.mrc %f %f %f %f %f %f
 $IMP/tools/imppy.sh $IMP/modules/cn_multifit/bin/symmetric_multifit multifit.param
 """ % (cn_symmetry, resolution, spacing, threshold, x_origin, y_origin, z_origin)
 
         else:
             script = """
 export IMP=/netapp/sali/multifit/IMP
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_input.py -- input.subunit.list.txt 10 input.map %f %f %f %f %f %f 
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/multifit_main.py asmb.input multifit.output
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_input.py -i asmb.input -- model input.subunit.list.txt 10 input.mrc %f %f %f %f %f %f 
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_all_surfaces.py asmb.input
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_anchor_graph.py asmb.input model.asmb.anchors
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/run_fitting_fft.py -p model.multifit.param  asmb.input -c 6
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_indexes_from_fitting_solutions.py model asmb.input 10
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_auto_proteomics_file.py asmb.input model.asmb.anchors.txt  model.proteomics.input
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/align_proteomics_em_atomic_plan.py -m 30 asmb.input model.proteomics.input model.indexes.mapping.input model.alignment.param model.docking.param combinations.output scores.output
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/write_ensemble_models.py asmb.input combinations.output asmb.model
 """ % (resolution, spacing, threshold, x_origin, y_origin, z_origin)
 
         script += """
@@ -79,7 +85,7 @@ rm -rf asmb_models
         chimerax_out = filename + ".chimerax"
         if include_map_flag:
             chimerax_out = filename + ".map.chimerax"
-            map_temp = "/" + "input.map" + "?"
+            map_temp = "/" + "input.mrc" + "?"
             map_url = re.sub('\?', map_temp, jobdir)
             map_path = filepath + "/" + map_url
 
@@ -89,7 +95,7 @@ rm -rf asmb_models
   	print >> infile, "<web_files>"
   	print >> infile, "   <file  name=\"%s\" format=\"text\" loc=\"%s\" />" %(pdb_in, full_path)
         if include_map_flag:
-  	    print >> infile, "   <file  name=\"input.map\" format=\"mrc\" loc=\"%s\" />" %(map_path)
+  	    print >> infile, "   <file  name=\"input.mrc\" format=\"mrc\" loc=\"%s\" />" %(map_path)
   	print >> infile, "</web_files>"
   	print >> infile, """
 <commands>

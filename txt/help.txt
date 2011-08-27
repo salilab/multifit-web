@@ -104,7 +104,7 @@
      </ul>
 
 <a name="example"><h4>Examples</h4></a>
-<p>To build a chaperon ring, set the input data as follows:
+<p>For symmetry example in building a chaperon ring, set the input data as follows:
 <ul>
   <li>Number of Cn Symmetry set to 7</li>
   <li>EM density map <a href="html/file/emd_1080_one_ring.mrc"><img src="html/img/file-icon.png" /></a></li>
@@ -112,7 +112,20 @@
   <li>Spacing is set to 2.7</li>
   <li>Density threshold is set to 0.852</li>
   <li>X, Y, Z origins are set to -50, -50, -50</li>
-  <li>Subunit <a href="html/file/1oel_subunit.pdb"><img src="html/img/file-icon.png" /></a></li>
+  <li>Subunit file <a href="html/file/1oel_subunit.pdb"><img src="html/img/file-icon.png" /></a></li>
+</ul>
+</p>
+<p>For non-symmetry example in building 1z5s, set the input data as follows:
+<ul>
+  <li>EM density map <a href="html/file/1z5s_15.mrc"><img src="html/img/file-icon.png" /></a></li>
+  <li>Resolution is set to 15</li>
+  <li>Spacing is set to 2</li>
+  <li>Density threshold is set to 300</li>
+  <li>X, Y, Z origins are set to 30, 4, -96</li>
+  <li>1 copy for subunit 1<a href="html/file/1z5s_A.pdb"><img src="html/img/file-icon.png" /></a></li>
+  <li>1 copy for subunit 2<a href="html/file/1z5s_B.pdb"><img src="html/img/file-icon.png" /></a></li>
+  <li>1 copy for subunit 3<a href="html/file/1z5s_C.pdb"><img src="html/img/file-icon.png" /></a></li>
+  <li>1 copy for subunit 4<a href="html/file/1z5s_D.pdb"><img src="html/img/file-icon.png" /></a></li>
 </ul>
 </p>
 

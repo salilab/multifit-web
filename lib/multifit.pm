@@ -129,7 +129,7 @@ sub get_complex_information_input {
                              $q->table($self->get_symmetry_mode())) .
                          $q->div({-class=>'tabbertab'},
                              $q->h2("Non-Symmetry Mode"),
-                             $q->table($self->get_non_symmetry_mode(2) .
+                             $q->table($self->get_non_symmetry_mode(2, 0) .
                                        $self->get_more())) 
                       )));
 }
@@ -148,15 +148,14 @@ sub get_symmetry_mode {
 }
 
 sub get_non_symmetry_mode {
-    my ($self, $print_subunit) = @_;
+    my ($self, $print_subunit, $start_value) = @_;
     my $q = $self->cgi;
-    my $total_subunit = 0;
     my $contents = "";
 
     for ( my $j=0; $j < $print_subunit; $j++ ) 
     {
-        my $pdb_name = "non_symm_pdb" . $j;
-        my $subunit_name = "subunit" . $j;
+        my $pdb_name = "non_symm_pdb" . $start_value;
+        my $subunit_name = "subunit" . $start_value;
         $contents .= $q->Tr($q->td("Subunit pdb coordinate file",
                                 $self->help_link("file"), $q->br),
                             $q->td($q->filefield({-name=>$pdb_name}))) .
@@ -164,7 +163,7 @@ sub get_non_symmetry_mode {
                                 $self->help_link("subunit_copies")),
                             $q->td( $q->textfield({-name=>$subunit_name,
                                                    -size=>"25"}))); 
-        $total_subunit++;
+        $start_value++;
     }
     return $contents;
 }
@@ -179,7 +178,7 @@ sub get_more {
                                       "return false;"},
                                       "Show add more subunits"))) .
        $q->tbody({-id=>'more', -style=>'display:none'},
-                 $self->get_non_symmetry_mode(3));
+                 $self->get_non_symmetry_mode(3,2));
 }
 
 sub get_map_information_input {
@@ -259,7 +258,7 @@ sub get_submit_page {
     my $y_origin  = $q->param('y_origin')||"0";         # user-provided y origin for map 
     my $z_origin  = $q->param('z_origin')||"0";         # user-provided z origin for map 
     my $input_symm_pdb = $q->upload('symm_pdb');        # uploaded file handle
-    my $cn_symmetry = $q->param('cn_symmetry')||"";     # user-provided number of Cn symmetry 
+    my $cn_symmetry = $q->param('cn_symmetry')||"1";     # user-provided number of Cn symmetry 
 
     if ($job_name eq "") {
         throw saliweb::frontend::InputValidationError(
@@ -315,7 +314,7 @@ sub get_submit_page {
     my $job = $self->make_job($job_name);
     my $jobdir = $job->directory;
 
-    my $output_file_name = $jobdir . "/input.map";
+    my $output_file_name = $jobdir . "/input.mrc";
     $self->write_input_map_file ($input_map, $output_file_name);
    
     my $symmetry_mode = 0;
@@ -325,18 +324,20 @@ sub get_submit_page {
         $self->write_input_pdb_file ($input_symm_pdb, $output_file_name);
     }
     else{
-        throw saliweb::frontend::InputValidationError(
-                   "Non-symmetry mode is currently under maintenance.");
+        #throw saliweb::frontend::InputValidationError(
+        #           "Non-symmetry mode is currently under maintenance.");
 
         my $subinput_file = $jobdir . "/input.subunit.list.txt";
         open(SUBINPARAM, "> $subinput_file")
             or throw saliweb::frontend::InternalError("Cannot open $subinput_file: $!");
         my $k = 0;
 	foreach my $ns_pdb (@input_non_symm_pdbs){
-            $output_file_name = $jobdir . "/ns_input_" . $k . ".pdb";
+            my $protein_name  = "input" . $k;
+            my $file_name  = "ns_input_" . $k . ".pdb";
+            $output_file_name = $jobdir . "/" . $file_name;
             $self->write_input_pdb_file ($ns_pdb, $output_file_name);
+            print SUBINPARAM "$protein_name $file_name $subunit_copies[$k]\n";
             $k++;
-            print SUBINPARAM "$ns_pdb $subunit_copies[$k]\n";
         }
         close SUBINPARAM
             or throw saliweb::frontend::InternalError("Cannot close $subinput_file: $!");
@@ -422,7 +423,8 @@ sub allow_file_download {
     my ($self, $file) = @_;
     return ($file eq 'multifit.output'  or $file =~ /asmb.model..*pdb/ or 
             $file =~ /asmb.model..*jpg/ or $file =~ /asmb.model..*chimerax/ or 
-            $file =~ /asmb.models.tar.gz/ or $file =~ /input.map/ );
+            $file =~ /asmb.models.tar.gz/ or $file =~ /input.mrc/ or 
+            $file =~ 'scores.output' );
 }
 
 sub get_file_mime_type {
@@ -439,8 +441,10 @@ sub get_file_mime_type {
 sub get_results_page {
     my ($self, $job) = @_;
     my $q = $self->cgi;
-    if (-f "multifit.output"){
-        return $self->display_ok_job($q, $job);
+    if (-f "multifit.output") {
+        return $self->display_ok_symm_job($q, $job);
+    } elsif (-f "scores.output"){
+        return $self->display_ok_non_symm_job($q, $job);
     } else{
         return $self->display_failed_job($q, $job);
     }
@@ -474,7 +478,7 @@ sub read_multifit_output_file {
    return %fit_solution;
 }
 
-sub display_ok_job {
+sub display_ok_symm_job {
    my ($self, $q, $job) = @_;
    my $return= $q->p("Job '<b>" . $job->name . "</b>' has completed.");
 
@@ -504,7 +508,7 @@ sub display_ok_job {
 
        $td .= $q->td("<a href=\"$chimerax_url\"><img src=\"$image_url\"></img></a><br>" .
                      "<a href=\"$job_url\">" . $pdb_file . "</a><br>" .
-                     "CC score=" . $cc_score);
+                     "CC score=" . $fitting_score);
        $j++;
      }
      $contents .= $q->Tr($td);
@@ -514,6 +518,21 @@ sub display_ok_job {
    $return.= $q->p("<BR>Download <a href=\"" . 
           $job->get_results_file_url("multifit.output") .
           "\">multifit.output</a>, <a href=\"" .
+          $job->get_results_file_url("asmb_models.tar.gz") .
+          "\">asmb_models.tar.gz</a>.");
+
+   $return .= $job->get_results_available_time();
+
+   return $return;
+}
+
+sub display_ok_non_symm_job {
+   my ($self, $q, $job) = @_;
+   my $return= $q->p("Job '<b>" . $job->name . "</b>' has completed.");
+
+   $return.= $q->p("<BR>Download <a href=\"" . 
+          $job->get_results_file_url("scores.output") .
+          "\">scores.output</a>, <a href=\"" .
           $job->get_results_file_url("asmb_models.tar.gz") .
           "\">asmb_models.tar.gz</a>.");
 
