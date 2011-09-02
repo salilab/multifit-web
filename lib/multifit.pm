@@ -478,6 +478,32 @@ sub read_multifit_output_file {
    return %fit_solution;
 }
 
+sub read_scores_output_file {
+   my %ns_fit_solution;
+   if (! -f 'scores.output'){
+       print "scores.output file doesn't exist.\n";
+       return;
+   }
+   open(MULT_OUT, "< scores.output") or die "Can't open scores.output: $!";
+
+   my @header_array = ("tt", "comb_score", "fitting_score");
+   while(<MULT_OUT>){
+      my @line_array = split (/\|/, $_);
+      my $i = 0;
+	    foreach my $header (@header_array){
+   	    push @{ $ns_fit_solution{$header} }, $line_array[$i++];
+	    }
+   }
+   close MULT_OUT or die "Can't close scores.output: $!";
+
+   return %ns_fit_solution;
+}
+
+
+
+
+
+
 sub display_ok_symm_job {
    my ($self, $q, $job) = @_;
    my $return= $q->p("Job '<b>" . $job->name . "</b>' has completed.");
@@ -496,8 +522,8 @@ sub display_ok_symm_job {
    {
      my $td = "";
      for ( my $column=0; $column < $total_column; $column++ ){
-       my $cc_score = 1-$fit_solution{"cluster size"}[$j]; 
-       my $fitting_score = 1-$fit_solution{"fitting score"}[$j]; 
+       my $cc_score = 1-$fit_solution{"fitting score"}[$j]; 
+       $cc_score = sprintf ("%.3f", $cc_score);
        my $pdb_file = $fit_solution{"solution filename"}[$j];
        my (@filename) = split (/\./, $pdb_file);
        my $image_file    = "asmb.model." . $filename[2] . ".jpg"; 
@@ -508,7 +534,7 @@ sub display_ok_symm_job {
 
        $td .= $q->td("<a href=\"$chimerax_url\"><img src=\"$image_url\"></img></a><br>" .
                      "<a href=\"$job_url\">" . $pdb_file . "</a><br>" .
-                     "CC score=" . $fitting_score);
+                     "CC score=" . $cc_score);
        $j++;
      }
      $contents .= $q->Tr($td);
@@ -529,6 +555,38 @@ sub display_ok_symm_job {
 sub display_ok_non_symm_job {
    my ($self, $q, $job) = @_;
    my $return= $q->p("Job '<b>" . $job->name . "</b>' has completed.");
+
+   my %ns_fit_solution = read_scores_output_file();
+   if (! defined(%ns_fit_solution)){
+       return $return;
+   }
+
+   my $total_solution = scalar @{$ns_fit_solution{"fitting_score"}};
+   my $contents = "";
+   my $total_column = 5;
+   my $j=0;
+
+   for ( my $row=0; $row < ($total_solution-1)/$total_column; $row++ )
+   {
+     my $td = "";
+     for ( my $column=0; $column < $total_column; $column++ ){
+       my $cc_score = 1-$ns_fit_solution{"fitting_score"}[$j]; 
+       $cc_score = sprintf ("%.3f", $cc_score);
+       my $pdb_file      = "asmb.model." . $j . ".pdb"; 
+       my $image_file    = "asmb.model." . $j . ".jpg"; 
+       my $chimerax_file = "asmb.model." . $j . ".chimerax"; 
+       my $image_url    = $job->get_results_file_url($image_file);
+       my $chimerax_url = $job->get_results_file_url($chimerax_file);
+       my $job_url      = $job->get_results_file_url($pdb_file);
+
+       $td .= $q->td("<a href=\"$chimerax_url\"><img src=\"$image_url\"></img></a><br>" .
+                     "<a href=\"$job_url\">" . $pdb_file . "</a><br>" .
+                     "CC score=" . $cc_score);
+       $j++;
+     }
+     $contents .= $q->Tr($td);
+   }
+   $return.= $q->p($q->table($contents));
 
    $return.= $q->p("<BR>Download <a href=\"" . 
           $job->get_results_file_url("scores.output") .
