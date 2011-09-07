@@ -99,7 +99,7 @@ MultiFit software</a> to run calculations on your own computer.
 <br />&nbsp;</p>
 GREETING
     return "<div id=\"resulttable\">\n" .
-           $q->h2({-align=>"center"},
+           $q->h2({-align=>"left"},
                   "MultiFit: Fitting of multiple proteins into their assembly density map") .
            $q->start_form({-name=>"multifit_form", -method=>"post",
                            -action=>$self->submit_url}) .
