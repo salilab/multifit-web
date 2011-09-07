@@ -38,6 +38,7 @@ $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_indexes_from_fitt
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_auto_proteomics_file.py asmb.input model.asmb.anchors.txt  model.proteomics.input
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/align_proteomics_em_atomic_plan.py -m 30 asmb.input model.proteomics.input model.indexes.mapping.input model.alignment.param model.docking.param combinations.output scores.output
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/write_ensemble_models.py asmb.input combinations.output asmb.model
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/prepare_results_for_dockref.py asmb.input combinations.output dockref.output
 """ % (resolution, spacing, threshold, x_origin, y_origin, z_origin)
 
         script += """

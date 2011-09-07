@@ -424,7 +424,7 @@ sub allow_file_download {
     return ($file eq 'multifit.output'  or $file =~ /asmb.model..*pdb/ or 
             $file =~ /asmb.model..*jpg/ or $file =~ /asmb.model..*chimerax/ or 
             $file =~ /asmb.models.tar.gz/ or $file =~ /input.mrc/ or 
-            $file =~ 'scores.output' );
+            $file =~ 'scores.output' or $file =~ 'dockref.output' );
 }
 
 sub get_file_mime_type {
@@ -591,6 +591,8 @@ sub display_ok_non_symm_job {
    $return.= $q->p("<BR>Download <a href=\"" . 
           $job->get_results_file_url("scores.output") .
           "\">scores.output</a>, <a href=\"" .
+          $job->get_results_file_url("dockref.output") .
+          "\">dockref.output</a>, <a href=\"" .
           $job->get_results_file_url("asmb_models.tar.gz") .
           "\">asmb_models.tar.gz</a>.");
 
