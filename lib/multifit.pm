@@ -32,7 +32,7 @@ sub get_navigation_links {
     return [
         $q->a({-href=>$self->index_url}, "MultiFit Home"),
         $q->a({-href=>$self->queue_url}, "Current Queue"),
-        $q->a({-href=>$self->download_url}, "Download"),
+        #$q->a({-href=>$self->download_url}, "Download"),
         $q->a({-href=>$self->help_url}, "Help"),
         $q->a({-href=>$self->contact_url}, "Contact")
         #$q->a({-href=>$self->faq_url}, "FAQ"),
@@ -92,12 +92,11 @@ pairs of components.
 The scoring function is optimized by an exact inference optimizer DOMINO that
 efficiently finds the global minimum in a discrete sampling space.
 <br />&nbsp;</p>
-
-<p>
-You can also <a href="download.cgi">download the
-MultiFit software</a> to run calculations on your own computer.
-<br />&nbsp;</p>
 GREETING
+#<p>
+#You can also <a href="download.cgi">download the
+#MultiFit software</a> to run calculations on your own computer.
+#<br />&nbsp;</p>
     return "<div id=\"resulttable\">\n" .
            $q->h2({-align=>"left"},
                   "MultiFit: Fitting of multiple proteins into their assembly density map") .
