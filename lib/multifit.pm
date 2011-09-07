@@ -111,9 +111,9 @@ GREETING
                $self->get_complex_information_input() 
            ) . 
            $q->table(
-               $q->Tr($q->td({-colspan=>"2"}, "<center>" .
-                      $q->input({-type=>"submit", -value=>"Process"}) .
-                      $q->input({-type=>"reset", -value=>"Reset"}) .
+               $q->Tr($q->td({-colspan=>"2"}, "<left>" .
+                      $q->input({-type=>"submit", -value=>"Process job"}) .
+                      $q->input({-type=>"reset", -value=>"Reset all values"}) .
                              "</center><p>&nbsp;</p>"))) .
            $q->end_form .
            "</div>\n";
