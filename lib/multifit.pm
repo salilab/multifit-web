@@ -129,7 +129,7 @@ sub get_complex_information_input {
                              $q->table($self->get_symmetry_mode())) .
                          $q->div({-class=>'tabbertab'},
                              $q->h2("Non-Symmetry Mode"),
-                             $q->table($self->get_non_symmetry_mode(2, 0) .
+                             $q->table($self->get_non_symmetry_mode(4, 0) .
                                        $self->get_more())) 
                       )));
 }
@@ -156,13 +156,22 @@ sub get_non_symmetry_mode {
     {
         my $pdb_name = "non_symm_pdb" . $start_value;
         my $subunit_name = "subunit" . $start_value;
+        my $fit_opt_name = "fit_opt" . $start_value;
         $contents .= $q->Tr($q->td("Subunit pdb coordinate file",
-                                $self->help_link("file"), $q->br),
-                            $q->td($q->filefield({-name=>$pdb_name}))) .
-                     $q->Tr($q->td("Number of copies",
-                                $self->help_link("subunit_copies")),
-                            $q->td( $q->textfield({-name=>$subunit_name,
-                                                   -size=>"25"}))); 
+                                $self->help_link("file"), $q->br,
+                                $q->filefield({-name=>$pdb_name})),
+                            $q->td("Number of copies",
+                                $self->help_link("subunit_copies"), $q->br, 
+                                $q->textfield({-name=>$subunit_name,
+                                               -size=>"5"})), 
+                            $q->td("&nbsp; &nbsp; &nbsp;"),
+                            $q->td("Fitting option:",
+                                   $self->help_link("fitting_options"), $q->br,
+                                   $q->radio_group({-name     =>$fit_opt_name,
+                                                    -values   =>['global fit','local fit'],
+                                                    -default  =>'global fit',
+                                                    -linebreak=>'false'}))) .
+                     $q->Tr($q->td());
         $start_value++;
     }
     return $contents;
@@ -178,7 +187,7 @@ sub get_more {
                                       "return false;"},
                                       "Show add more subunits"))) .
        $q->tbody({-id=>'more', -style=>'display:none'},
-                 $self->get_non_symmetry_mode(3,2));
+                 $self->get_non_symmetry_mode(3,4));
 }
 
 sub get_map_information_input {
@@ -286,9 +295,11 @@ sub get_submit_page {
     }
     my @input_non_symm_pdbs = ();
     my @subunit_copies = ();
+    my @fitting_options = ();
     for (my $i=0; $i < 5; $i++){
         my $input_ns_pdb = $q->upload('non_symm_pdb' . $i);
         if (defined ($input_ns_pdb)){
+           my $fit_option  = $q->param('fit_opt' . $i);
            my $sub_copy = $q->param('subunit' . $i);
            if (!defined ($sub_copy) || $sub_copy eq ""){
                 throw saliweb::frontend::InputValidationError(
@@ -296,6 +307,7 @@ sub get_submit_page {
            }
            push (@input_non_symm_pdbs, $input_ns_pdb); 
            push (@subunit_copies, $sub_copy); 
+           push (@fitting_options, $fit_option); 
         }
     }
     if (defined ($input_symm_pdb) && scalar(@input_non_symm_pdbs) > 0){
@@ -324,19 +336,27 @@ sub get_submit_page {
         $self->write_input_pdb_file ($input_symm_pdb, $output_file_name);
     }
     else{
-        #throw saliweb::frontend::InputValidationError(
-        #           "Non-symmetry mode is currently under maintenance.");
-
         my $subinput_file = $jobdir . "/input.subunit.list.txt";
         open(SUBINPARAM, "> $subinput_file")
             or throw saliweb::frontend::InternalError("Cannot open $subinput_file: $!");
         my $k = 0;
 	foreach my $ns_pdb (@input_non_symm_pdbs){
-            my $protein_name  = "input" . $k;
+            my $fit_opt;
+            if ($fitting_options[$k] eq 'global fit'){
+               $fit_opt = 1;
+            }
+            else{ 
+               $fit_opt = 0;
+            }
+            my $protein_subunit_copy = $subunit_copies[$k];
             my $file_name  = "ns_input_" . $k . ".pdb";
             $output_file_name = $jobdir . "/" . $file_name;
             $self->write_input_pdb_file ($ns_pdb, $output_file_name);
-            print SUBINPARAM "$protein_name $file_name $subunit_copies[$k]\n";
+
+            for ( my $copy=0; $copy < $protein_subunit_copy; $copy++ ) {
+               my $protein_name  = "input" . $k . "_" . $copy;
+               print SUBINPARAM "$protein_name $file_name 1\n";
+            }
             $k++;
         }
         close SUBINPARAM

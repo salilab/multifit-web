@@ -33,7 +33,7 @@ export IMP=/netapp/sali/multifit/IMP
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_input.py -i asmb.input -- model input.subunit.list.txt 10 input.mrc %f %f %f %f %f %f 
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_all_surfaces.py asmb.input
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_anchor_graph.py asmb.input model.asmb.anchors
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/run_fitting_fft.py -p model.multifit.param  asmb.input -c 6
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/run_fitting_fft.py -p model.multifit.param  asmb.input input.subunit.list.txt -c 6
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_indexes_from_fitting_solutions.py model asmb.input 10
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_auto_proteomics_file.py asmb.input model.asmb.anchors.txt  model.proteomics.input
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/align_proteomics_em_atomic_plan.py -m 30 asmb.input model.proteomics.input model.indexes.mapping.input model.alignment.param model.docking.param combinations.output scores.output

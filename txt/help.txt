@@ -38,6 +38,10 @@
   <li><a id="subunit_copies"><h5>Number of copies</h5></a>
       <p>The number of subunit copies.
       </p></li>
+  <li><a id="fitting_options"><h5>Fitting options</h5></a>
+      <p>Each subunit can be set to fit globally or locally. Local fitting means limited rotational and translational search around 
+         its current location.
+      </p></li>
   <li><a id="reset"><h5>Reset button</h5></a>
       <p>Reset all the input fields.
       </p></li>
