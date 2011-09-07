@@ -19,12 +19,12 @@ my $t = new saliweb::Test('multifit');
          'Index link');
     like($links->[1], qr#<a href="http://modbase/top/queue.cgi">Current Queue</a>#,
          'Queue link');
-    like($links->[2],
-         qr#<a href="http://modbase/top/download.cgi">Download</a>#,
-         'Download link');
-    like($links->[3], qr#<a href="http://modbase/top/help.cgi\?type=help">Help</a>#,
+    #like($links->[2],
+    #     qr#<a href="http://modbase/top/download.cgi">Download</a>#,
+    #     'Download link');
+    like($links->[2], qr#<a href="http://modbase/top/help.cgi\?type=help">Help</a>#,
          'Help link');
-    like($links->[4], qr#<a href="http://modbase/top/help.cgi\?type=contact">Contact</a>#,
+    like($links->[3], qr#<a href="http://modbase/top/help.cgi\?type=contact">Contact</a>#,
          'Contact link');
 }
 
@@ -45,14 +45,14 @@ my $t = new saliweb::Test('multifit');
        "                    good file");
 }
 
-# Check display_ok_job
+# Check display_ok_symm_job
 {
     my $frontend = $t->make_frontend();
     my $job = new saliweb::frontend::CompletedJob($frontend,
                         {name=>'testjob', passwd=>'foo', directory=>'/foo/bar',
                          archive_time=>'2011-01-01 08:45:00'});
-    my $ret = $frontend->display_ok_job($frontend->{CGI}, $job);
-    like($ret, '/Job.*testjob.*has completed.*/ms', 'display_ok_job');
+    my $ret = $frontend->display_ok_symm_job($frontend->{CGI}, $job);
+    like($ret, '/Job.*testjob.*has completed.*/ms', 'display_ok_symm_job');
 }
 
 # Check display_failed_job
