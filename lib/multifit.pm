@@ -68,9 +68,13 @@ sub get_footer {
 </table>
 <hr />
 <br />
+<a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/21715383">
+<b>E. Tjioe,  K. Lasker, B. Webb, H. Wolfson and A. Sali, Nucleic Acids Research, (2011) <i>39,</i> W167-W170</b></a>
+&nbsp;<a target="_blank" href="http://salilab.org/pdf/Tjioe_NucleicAcidsRes_2011.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
+<br />
 <a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/20827723">
 <b>K. Lasker,  M. Topf, A. Sali and H. Wolfson, Journal of Molecular Biology, (2009) <i>388,</i> 180-194</b></a>
-&nbsp;<a href="http://salilab.org/pdf/Lasker_Proteins-StructFunctBioinform_2010a.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
+&nbsp;<a target="_blank" href="http://salilab.org/pdf/Lasker_Proteins-StructFunctBioinform_2010a.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
 </div>
 FOOTER
 }
