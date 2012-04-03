@@ -14,22 +14,28 @@ class PostProcessTests(saliweb.test.TestCase):
         j = self.make_test_job(multifit.Job, 'ARCHIVED') 
         # Run the rest of this testcase in the job's directory
         d = saliweb.test.RunInDir(j.directory)
-        # Make test PDB files and another incidental file
-        in_pdbs = ['test1.pdb', 'test2.pdb']
-        for pdb in in_pdbs:
-            print >> open(pdb, 'w'), "test pdb"
+        # Make test PDB and JPG files and another incidental file
+        in_files = ['test1.pdb', 'test2.pdb', 'test1.jpg', 'test2.jpg']
+        for f in in_files:
+            print >> open(f, 'w'), "test file"
         print >> open('test.txt', 'w'), "text file"
 
         j.archive()
 
-        # Original PDB files should have been deleted
-        for pdb in in_pdbs:
-            self.assertEqual(os.path.exists(pdb), False)
+        # Original PDB and JPG files should have been deleted
+        for f in in_files:
+            self.assertEqual(os.path.exists(f), False)
         tar = tarfile.open('output-pdbs.tar.bz2', 'r:bz2')
-        self.assertEqual(sorted([p.name for p in tar]), in_pdbs)
+        self.assertEqual(sorted([p.name for p in tar]),
+                         ['test1.pdb', 'test2.pdb'])
         self.assertTrue(os.path.exists('test.txt'))
         tar.close()
+        tar = tarfile.open('output-jpgs.tar.bz2', 'r:bz2')
+        self.assertEqual(sorted([p.name for p in tar]),
+                         ['test1.jpg', 'test2.jpg'])
+        tar.close()
         os.unlink('output-pdbs.tar.bz2')
+        os.unlink('output-jpgs.tar.bz2')
 
 if __name__ == '__main__':
     unittest.main()
