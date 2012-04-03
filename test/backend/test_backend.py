@@ -48,6 +48,46 @@ class PostProcessTests(saliweb.test.TestCase):
         self.assert_(re.search(regex, txt),
                      "Text %s does not match regex %s" % (txt, regex))
 
+    def test_postprocess(self):
+        """Test postprocess method"""
+        j = self.make_test_job(multifit.Job, 'RUNNING')
+        d = saliweb.test.RunInDir(j.directory)
+        # Make sure that expected methods were called
+        calls = []
+        class MockMethod(object):
+            def __init__(self, name):
+                self.name = name
+            def __call__(self):
+                calls.append(self.name)
+        old_thumb = multifit.Job.generate_image_thumbnail
+        old_gen = multifit.Job.generate_all_chimerax
+        try:
+            multifit.Job.generate_image_thumbnail = MockMethod('thumbnail')
+            multifit.Job.generate_all_chimerax = MockMethod('chimerax')
+            j.postprocess()
+        finally:
+            multifit.Job.generate_image_thumbnail = old_thumb
+            multifit.Job.generate_all_chimerax = old_gen
+        self.assertEqual(calls, ['thumbnail', 'chimerax'])
+
+    def test_generate_all_chimerax(self):
+        """Test generate_all_chimerax method"""
+        j = self.make_test_job(multifit.Job, 'RUNNING')
+        d = saliweb.test.RunInDir(j.directory)
+        open('asmb.model.0.pdb', 'w')
+        open('asmb.model.1.pdb', 'w')
+        calls = []
+        def dummy_generate(self, pdb, flag):
+            calls.append((pdb, flag))
+        old_generate = multifit.Job.generate_chimerax
+        try:
+            multifit.Job.generate_chimerax = dummy_generate
+            j.generate_all_chimerax()
+        finally:
+            multifit.Job.generate_chimerax = old_generate
+        self.assertEqual(calls, [('asmb.model.0.pdb', False),
+                                 ('asmb.model.1.pdb', False)])
+
     def test_generate_image_thumbnail(self):
         """Test generate_image_thumbnail method"""
         j = self.make_test_job(multifit.Job, 'RUNNING') 
