@@ -44,8 +44,34 @@ class PostProcessTests(saliweb.test.TestCase):
                      "Contents of file %s (%s) do not match regex %s" \
                      % (fname, contents, regex))
 
+    def assert_re(self, txt, regex):
+        self.assert_(re.search(regex, txt),
+                     "Text %s does not match regex %s" % (txt, regex))
+
+    def test_generate_image_thumbnail(self):
+        """Test generate_image_thumbnail method"""
+        j = self.make_test_job(multifit.Job, 'RUNNING') 
+        d = saliweb.test.RunInDir(j.directory)
+        open('asmb.model.0.pdb', 'w')
+        open('asmb.model.1.pdb', 'w')
+        cmds = []
+        def mock_system(cmd):
+            cmds.append(cmd)
+        old_system = os.system
+        try:
+            os.system = mock_system
+            j.generate_image_thumbnail()
+        finally:
+            os.system = old_system
+        self.assertEqual(len(cmds), 2)
+        for i in range(2):
+            self.assert_re(cmds[i],
+                      'molauto asmb\.model\.%d\.pdb .*molscript \-r .*'
+                      'render \-size 50x50 \-jpeg > asmb\.model\.%d\.jpg' \
+                      % (i, i))
+
     def test_generate_chimerax(self):
-        """Test generate_chimerax function"""
+        """Test generate_chimerax method"""
         j = self.make_test_job(multifit.Job, 'RUNNING') 
         d = saliweb.test.RunInDir(j.directory)
 
