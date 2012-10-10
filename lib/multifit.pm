@@ -132,8 +132,8 @@ sub get_complex_information_input {
                              $q->table($self->get_symmetry_mode())) .
                          $q->div({-class=>'tabbertab'},
                              $q->h2("Non-Symmetry Mode"),
-                             $q->table($self->get_non_symmetry_mode(4, 0) .
-                                       $self->get_more())) 
+                             #$q->table($self->get_non_symmetry_mode(4, 0) . $self->get_more())) 
+                             $q->table($self->get_non_symmetry_mode(4, 0))) 
                       )));
 }
 
@@ -154,6 +154,10 @@ sub get_non_symmetry_mode {
     my ($self, $print_subunit, $start_value) = @_;
     my $q = $self->cgi;
     my $contents = "";
+
+    
+    $contents .= $q->Tr($q->td("Non-symmetry mode is currently under maintenance. Thank you."));
+    return $contents;
 
     for ( my $j=0; $j < $print_subunit; $j++ ) 
     {
@@ -254,6 +258,22 @@ sub get_optional_option {
                                               -size=>"25"})))
                  );
 
+}
+
+sub get_submit_parameter_help {
+    my $self = shift;
+    return [
+        $self->parameter("job_name", "Job name", 1),
+        $self->file_parameter("map", "Density map"),
+        $self->parameter("resolution", "Resolution for the density map"),
+        $self->parameter("spacing", "Spacing for the density map"),
+        $self->parameter("threshold", "Threshold for the density map"),
+        $self->parameter("x_origin", "X origin for the density map"),
+        $self->parameter("y_origin", "Y origin for the density map"),
+        $self->parameter("z_origin", "Z origin for the density map"),
+        $self->file_parameter("symm_pdb", "Input PDB for symmetry case"),
+        $self->parameter("cn_symmetry", "Number of Cn symmetry")
+    ];
 }
 
 sub get_submit_page {
@@ -533,7 +553,7 @@ sub display_ok_symm_job {
 
    my %fit_solution = read_multifit_output_file();
    if (! defined(%fit_solution)){
-       return $return;
+       return $self->display_failed_job($q, $job);
    }
 
    my $total_solution = scalar @{$fit_solution{"solution index"}};
@@ -581,7 +601,7 @@ sub display_ok_non_symm_job {
 
    my %ns_fit_solution = read_scores_output_file();
    if (! defined(%ns_fit_solution)){
-       return $return;
+       return $self->display_failed_job($q, $job);
    }
 
    my $total_solution = scalar @{$ns_fit_solution{"fitting_score"}};
