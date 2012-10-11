@@ -52,7 +52,15 @@ my $t = new saliweb::Test('multifit');
                         {name=>'testjob', passwd=>'foo', directory=>'/foo/bar',
                          archive_time=>'2011-01-01 08:45:00'});
     my $ret = $frontend->display_ok_symm_job($frontend->{CGI}, $job);
-    like($ret, '/Job.*testjob.*has completed.*/ms', 'display_ok_symm_job');
+
+    #If multifit.output file is not empty
+    #like($ret, '/Job.*testjob.*has completed.*/ms', 'display_ok_symm_job');
+
+    #if multifit.output file is empty
+    like($ret, '/Your MultiFit job.*testjob.*failed to produce any output models.*' .
+               '.*For more information, ' .
+               'you can download the .*failure\.log.*MultiFit log file.*' .
+               'contact us/ms', 'display_failed_job');
 }
 
 # Check display_failed_job
@@ -85,8 +93,16 @@ my $t = new saliweb::Test('multifit');
     ok(close(FH), "Close multifit.output");
 
     $ret = $frontend->get_results_page($job);
-    like($ret, '/Job.*testjob.*has completed/',
-         '                 (successful job)');
+
+    #If multifit.output file is not empty
+    #like($ret, '/Job.*testjob.*has completed/',
+    #     '                 (successful job)');
+
+    #if multifit.output file is empty
+    like($ret, '/Your MultiFit job.*testjob.*failed to produce any output models.*' .
+               '.*For more information, ' .
+               'you can download the .*failure\.log.*MultiFit log file.*' .
+               'contact us/ms', 'display_failed_job');
 
     chdir("/");
 }
