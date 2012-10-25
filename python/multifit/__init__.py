@@ -26,6 +26,7 @@ export LD_LIBRARY_PATH=$IMP/build/lib
 perl $IMP/modules/cn_multifit/bin/runMSPoints.pl input.pdb
 $IMP/tools/imppy.sh python $IMP/modules/cn_multifit/bin/build_cn_multifit_params.py -n 20 -- %d input.pdb input.mrc %f %f %f %f %f %f
 $IMP/tools/imppy.sh $IMP/modules/cn_multifit/bin/symmetric_multifit multifit.param
+sleep 10
 """ % (cn_symmetry, resolution, spacing, threshold, x_origin, y_origin, z_origin)
 
         else:
@@ -41,6 +42,7 @@ $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_auto_proteomics_fil
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/align_proteomics_em_atomic_plan.py -m 30 asmb.input model.proteomics.input model.indexes.mapping.input model.alignment.param model.docking.param combinations.output scores.output
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/write_ensemble_models.py asmb.input combinations.output asmb.model
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/prepare_results_for_dockref.py asmb.input combinations.output dockref.output
+sleep 10
 """ % (resolution, spacing, threshold, x_origin, y_origin, z_origin)
 
         script += """
