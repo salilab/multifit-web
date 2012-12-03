@@ -2,6 +2,7 @@ package multifit;
 use saliweb::frontend;
 use strict;
 use Error qw(:try);
+use Scalar::Util qw(looks_like_number);
 
 our @ISA = "saliweb::frontend";
 
@@ -42,6 +43,7 @@ sub get_navigation_links {
 sub get_project_menu {
     my $self = shift;
     return <<MENU;
+<p>&nbsp;</p>
 MENU
 }
 
@@ -296,21 +298,21 @@ sub get_submit_page {
         throw saliweb::frontend::InputValidationError(
                    "Job name is missing!");
     }
-    if ($resolution eq "") {
+    if (!looks_like_number($resolution)) {
         throw saliweb::frontend::InputValidationError(
-                   "Map resolution input is missing!");
+                   "Map resolution input is missing or invalid.");
     }
-    if ($spacing eq "") {
+    if (!looks_like_number($spacing)) {
         throw saliweb::frontend::InputValidationError(
-                   "Vector spacing input is missing!");
+                   "Vector spacing input is missing or invalid.");
     }
     if ($cn_symmetry eq int($cn_symmetry) && $cn_symmetry < 1) {
         throw saliweb::frontend::InputValidationError(
                    "Cn symmetry input expects a positive integer.");
     }
-    if ($threshold eq "") {
+    if (!looks_like_number($threshold)) {
         throw saliweb::frontend::InputValidationError(
-                   "Contour level input is missing!");
+                   "Contour level input is missing or invalid.");
     }
     if (!defined ($input_map)){
         throw saliweb::frontend::InputValidationError(
@@ -324,9 +326,9 @@ sub get_submit_page {
         if (defined ($input_ns_pdb)){
            my $fit_option  = $q->param('fit_opt' . $i);
            my $sub_copy = $q->param('subunit' . $i);
-           if (!defined ($sub_copy) || $sub_copy eq ""){
+           if ($sub_copy eq int($sub_copy) && $sub_copy < 1) {
                 throw saliweb::frontend::InputValidationError(
-                   "Number of copies for subunit $i is missing!");
+                   "Number of copies for subunit $i is missing or invalid.");
            }
            push (@input_non_symm_pdbs, $input_ns_pdb); 
            push (@subunit_copies, $sub_copy); 
