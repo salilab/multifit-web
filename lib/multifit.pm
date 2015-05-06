@@ -158,7 +158,7 @@ sub get_non_symmetry_mode {
     my $contents = "";
 
     
-    $contents .= $q->Tr($q->td("Non-symmetry mode is currently under maintenance. Thank you."));
+    $contents .= $q->Tr($q->td("Non-symmetry mode is not currently available. There is, however, an equivalent <a href=\"http://integrativemodeling.org/2.4.0/doc/tutorial/multifit_3sfd.html\">command line tool</a> available as part of the <a href=\"http://integrativemodeling.org/\">IMP software</a>."));
     return $contents;
 
     for ( my $j=0; $j < $print_subunit; $j++ ) 
