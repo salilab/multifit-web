@@ -306,9 +306,9 @@ sub get_submit_page {
         throw saliweb::frontend::InputValidationError(
                    "Vector spacing input is missing or invalid.");
     }
-    if ($cn_symmetry eq int($cn_symmetry) || $cn_symmetry < 1) {
+    if ($cn_symmetry eq int($cn_symmetry) || $cn_symmetry < 3) {
         throw saliweb::frontend::InputValidationError(
-                   "Cn symmetry input expects a positive integer.");
+                   "Cn symmetry should be an integer, of 3 or more.");
     }
     if (!looks_like_number($threshold)) {
         throw saliweb::frontend::InputValidationError(
