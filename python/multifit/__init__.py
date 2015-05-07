@@ -3,6 +3,7 @@ import tarfile
 import glob
 import os
 import re
+import subprocess
 
 class Job(saliweb.backend.Job):
     runnercls = saliweb.backend.SaliSGERunner
@@ -66,10 +67,10 @@ rm -rf asmb_models
         for pdb_in in output_pdbs:
             (filename, extension) = os.path.splitext(pdb_in)
             jpg_out = filename + ".jpg"
-            molscriptin = "/usr/local/bin/molauto %s -r 2> /dev/null \
-                         | /usr/local/bin/molscript -r 2> /dev/null \
+            molscriptin = "/usr/bin/molauto %s -r 2> /dev/null \
+                         | /usr/bin/molscript -r 2> /dev/null \
                          | /usr/bin/render -size %s -jpeg > %s" % (pdb_in, size, jpg_out) 
-            os.system (molscriptin)
+            subprocess.check_call(molscriptin, shell=True)
 
     def generate_all_chimerax(self): 
         output_pdbs = glob.glob('asmb.model.*.pdb')
