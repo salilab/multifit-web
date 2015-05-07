@@ -21,11 +21,10 @@ class Job(saliweb.backend.Job):
         
         if symmetry_mode == 1:
             script = """
-export IMP=/netapp/sali/multifit/IMP
-export LD_LIBRARY_PATH=$IMP/build/lib
-perl $IMP/modules/cn_multifit/bin/runMSPoints.pl input.pdb
-$IMP/tools/imppy.sh python $IMP/modules/cn_multifit/bin/build_cn_multifit_params.py -n 20 -- %d input.pdb input.mrc %f %f %f %f %f %f
-$IMP/tools/imppy.sh $IMP/modules/cn_multifit/bin/symmetric_multifit multifit.param
+module load IMP
+cnmultifit surface input.pdb
+cnmultifit param -n 20 -- %d input.pdb input.mrc %f %f %f %f %f %f
+cnmultifit build multifit.param
 sleep 10
 """ % (cn_symmetry, resolution, spacing, threshold, x_origin, y_origin, z_origin)
 
