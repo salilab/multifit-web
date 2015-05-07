@@ -22,7 +22,7 @@ class Job(saliweb.backend.Job):
         
         if symmetry_mode == 1:
             script = """
-module load IMP
+module load imp
 cnmultifit surface input.pdb
 cnmultifit param -n 20 -- %d input.pdb input.mrc %f %f %f %f %f %f
 cnmultifit build multifit.param
