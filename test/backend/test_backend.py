@@ -5,6 +5,7 @@ import saliweb.test
 import tarfile
 import os
 import re
+import subprocess
 
 class PostProcessTests(saliweb.test.TestCase):
     """Check postprocessing functions"""
@@ -95,14 +96,14 @@ class PostProcessTests(saliweb.test.TestCase):
         open('asmb.model.0.pdb', 'w')
         open('asmb.model.1.pdb', 'w')
         cmds = []
-        def mock_system(cmd):
+        def mock_call(cmd, *args, **keys):
             cmds.append(cmd)
-        old_system = os.system
+        old_call = subprocess.check_call
         try:
-            os.system = mock_system
+            subprocess.check_call = mock_call
             j.generate_image_thumbnail()
         finally:
-            os.system = old_system
+            subprocess.check_call = old_call
         self.assertEqual(len(cmds), 2)
         for i in range(2):
             self.assert_re(cmds[i],
