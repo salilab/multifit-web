@@ -53,7 +53,7 @@ gzip -9 asmb_models.tar
 rm -rf asmb_models
 """
         r = self.runnercls(script)
-        r.set_sge_options('-l o64=true -l diva1=1G -j -o multifit.log')
+        r.set_sge_options('-l o64=true -l diva1=1G -j y -o multifit.log')
         return r
 
     def postprocess(self):
