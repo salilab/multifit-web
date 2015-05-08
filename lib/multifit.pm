@@ -468,6 +468,7 @@ sub write_input_map_file {
 sub allow_file_download {
     my ($self, $file) = @_;
     return ($file eq 'multifit.output'  or $file =~ /asmb.model..*pdb/ or 
+            $file eq 'multifit.log' or
             $file =~ /asmb.model..*jpg/ or $file =~ /asmb.model..*chimerax/ or 
             $file =~ /asmb.models.tar.gz/ or $file =~ /input.mrc/ or 
             $file =~ 'scores.output' or $file =~ 'dockref.output' );
@@ -657,7 +658,7 @@ sub display_failed_job {
     #               $q->a({-href=>$self->help_url . "#errors"}, "help page") .
     #               ".");
     $return.= $q->p("For more information, you can download the " .
-                    "<a href=\"" . $job->get_results_file_url("failure.log") .
+                    "<a href=\"" . $job->get_results_file_url("multifit.log") .
                     "\">MultiFit log file</a>." .
                     "<BR>If the problem is not clear from this log, " .
                     "please <a href=\"" .

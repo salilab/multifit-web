@@ -59,7 +59,7 @@ my $t = new saliweb::Test('multifit');
     #if multifit.output file is empty
     like($ret, '/Your MultiFit job.*testjob.*failed to produce any output models.*' .
                '.*For more information, ' .
-               'you can download the .*failure\.log.*MultiFit log file.*' .
+               'you can download the .*multifit\.log.*MultiFit log file.*' .
                'contact us/ms', 'display_failed_job');
 }
 
@@ -72,7 +72,7 @@ my $t = new saliweb::Test('multifit');
     my $ret = $frontend->display_failed_job($frontend->{CGI}, $job);
     like($ret, '/Your MultiFit job.*testjob.*failed to produce any output models.*' .
                '.*For more information, ' .
-               'you can download the .*failure\.log.*MultiFit log file.*' .
+               'you can download the .*multifit\.log.*MultiFit log file.*' .
                'contact us/ms', 'display_failed_job');
 }
 
@@ -101,7 +101,7 @@ my $t = new saliweb::Test('multifit');
     #if multifit.output file is empty
     like($ret, '/Your MultiFit job.*testjob.*failed to produce any output models.*' .
                '.*For more information, ' .
-               'you can download the .*failure\.log.*MultiFit log file.*' .
+               'you can download the .*multifit\.log.*MultiFit log file.*' .
                'contact us/ms', 'display_failed_job');
 
     chdir("/");
