@@ -10,21 +10,14 @@ sub new {
     return saliweb::frontend::new(@_, @CONFIG@);
 }
 
-sub start_html {
+# Add our own CSS and JS to the page header
+sub get_start_html_parameters {
     my ($self, $style) = @_;
-    my $q = $self->{'CGI'};
-    $style = $style || "/saliweb/css/server.css";
-    my $style2 = "html/js/tab.css";
-    return $q->header(-status => $self->http_status) .
-           $q->start_html(-title => $self->{page_title},
-                          -style =>[{-src=>$style},
-                                    {-src=>$style2}],
-                          -script=>[{-language => 'JavaScript',
-                                     -src=>"/saliweb/js/salilab.js"},
-                                    {-language => 'JavaScript',
-                                     -src=>"html/js/tab.js"}
-                                   ]
-                          );
+    my %param = $self->SUPER::get_start_html_parameters($style);
+    push @{$param{-style}->{'-src'}}, $self->htmlroot . 'js/tab.css';
+    push @{$param{-script}}, {-language => 'JavaScript',
+                              -src=> $self->htmlroot . "js/tab.js"};
+    return %param;
 }
 
 sub get_navigation_links {
