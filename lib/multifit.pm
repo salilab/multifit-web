@@ -549,7 +549,7 @@ sub display_ok_symm_job {
    my $return= $q->p("Job '<b>" . $job->name . "</b>' has completed.");
 
    my %fit_solution = read_multifit_output_file();
-   if (! defined(%fit_solution)){
+   if (!%fit_solution){
        return $self->display_failed_job($q, $job);
    }
 
