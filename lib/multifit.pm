@@ -597,7 +597,7 @@ sub display_ok_non_symm_job {
    my $return= $q->p("Job '<b>" . $job->name . "</b>' has completed.");
 
    my %ns_fit_solution = read_scores_output_file();
-   if (! defined(%ns_fit_solution)){
+   if (!%ns_fit_solution){
        return $self->display_failed_job($q, $job);
    }
 
