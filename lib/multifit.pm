@@ -308,6 +308,11 @@ sub get_submit_page {
         throw saliweb::frontend::InputValidationError(
                    "Contour level input is missing or invalid.");
     }
+    if (!looks_like_number($x_origin) || !looks_like_number($y_origin)
+        || !looks_like_number($z_origin)) {
+        throw saliweb::frontend::InputValidationError(
+                   "Origin input is invalid.");
+    }
     if (!defined ($input_map)){
         throw saliweb::frontend::InputValidationError(
                    "Please upload input density map.");
