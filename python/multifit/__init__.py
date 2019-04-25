@@ -31,7 +31,7 @@ sleep 10
 
         else:
             script = """
-export IMP=/netapp/sali/multifit/IMP
+export IMP=/wynton/home/sali/multifit/IMP
 export LD_LIBRARY_PATH=$IMP/build/lib
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_input.py -i asmb.input -- model input.subunit.list.txt 10 input.mrc %f %f %f %f %f %f 
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_all_surfaces.py asmb.input
