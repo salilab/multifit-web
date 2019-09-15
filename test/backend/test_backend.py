@@ -19,8 +19,10 @@ class PostProcessTests(saliweb.test.TestCase):
         # Make test PDB and JPG files and another incidental file
         in_files = ['test1.pdb', 'test2.pdb', 'test1.jpg', 'test2.jpg']
         for f in in_files:
-            print >> open(f, 'w'), "test file"
-        print >> open('test.txt', 'w'), "text file"
+            with open(f, 'w') as fh:
+                fh.write("test file\n")
+        with open('test.txt', 'w') as fh:
+            fh.write("text file\n")
 
         j.archive()
 

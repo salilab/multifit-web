@@ -1,3 +1,4 @@
+from __future__ import print_function
 import saliweb.backend
 import tarfile
 import glob
@@ -95,26 +96,29 @@ rm -rf asmb_models
             map_path = filepath + "/" + map_url
 
         infile = open(chimerax_out, 'w')
-        print >> infile, "<?xml version=\"1.0\"?>"
-  	print >> infile, "<ChimeraPuppet type=\"std_webdata\">"
-  	print >> infile, "<web_files>"
-  	print >> infile, "   <file  name=\"%s\" format=\"text\" loc=\"%s\" />" %(pdb_in, full_path)
+        print("<?xml version=\"1.0\"?>", file=infile)
+        print("<ChimeraPuppet type=\"std_webdata\">", file=infile)
+        print("<web_files>", file=infile)
+        print("   <file  name=\"%s\" format=\"text\" loc=\"%s\" />"
+              %(pdb_in, full_path), file=infile)
         if include_map_flag:
-  	    print >> infile, "   <file  name=\"input.mrc\" format=\"mrc\" loc=\"%s\" />" %(map_path)
-  	print >> infile, "</web_files>"
-  	print >> infile, """
+            print("   <file  name=\"input.mrc\" format=\"mrc\" loc=\"%s\" />"
+                  %(map_path), file=infile)
+        print("</web_files>", file=infile)
+        print("""
 <commands>
     <py_cmd>model = chimera.openModels.list()[0]</py_cmd>
     <mid_cmd>ribbon</mid_cmd>
     <mid_cmd>~disp</mid_cmd>
     <mid_cmd>modelcolor #fa8072 #0</mid_cmd>
     <mid_cmd>ribrepr smooth</mid_cmd>
-"""
+""", file=infile)
         if include_map_flag:
-            print >> infile, "    <mid_cmd>vol all transparency 0.5</mid_cmd>"
-            print >> infile, "    <mid_cmd>vol all level 0.825</mid_cmd>"
-        print >> infile, "</commands>"
-        print >> infile, "</ChimeraPuppet>"
+            print("    <mid_cmd>vol all transparency 0.5</mid_cmd>",
+                  file=infile)
+            print("    <mid_cmd>vol all level 0.825</mid_cmd>", file=infile)
+        print("</commands>", file=infile)
+        print("</ChimeraPuppet>", file=infile)
         infile.close()
 
     def archive(self):
