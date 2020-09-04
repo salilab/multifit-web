@@ -85,7 +85,7 @@ rm -rf asmb_models
     def generate_chimerax(self, pdb_in, include_map_flag): 
         (filepath, jobdir) = os.path.split(self.url)
         pdb_temp = "/" + pdb_in + "?"
-        pdb_url = re.sub('\?', pdb_temp, jobdir)
+        pdb_url = re.sub(r'\?', pdb_temp, jobdir)
         full_path = filepath + "/" + pdb_url
 
         (filename, extension) = os.path.splitext(pdb_in)
@@ -93,7 +93,7 @@ rm -rf asmb_models
         if include_map_flag:
             chimerax_out = filename + ".map.chimerax"
             map_temp = "/" + "input.mrc" + "?"
-            map_url = re.sub('\?', map_temp, jobdir)
+            map_url = re.sub(r'\?', map_temp, jobdir)
             map_path = filepath + "/" + map_url
 
         infile = open(chimerax_out, 'w')

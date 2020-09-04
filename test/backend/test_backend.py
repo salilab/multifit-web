@@ -42,13 +42,14 @@ class PostProcessTests(saliweb.test.TestCase):
         os.unlink('output-jpgs.tar.bz2')
 
     def assert_file_contents_re(self, fname, regex):
-        contents = open(fname).read()
-        self.assert_(re.search(regex, contents, re.MULTILINE | re.DOTALL),
+        with open(fname) as fh:
+            contents = fh.read()
+        self.assertTrue(re.search(regex, contents, re.MULTILINE | re.DOTALL),
                      "Contents of file %s (%s) do not match regex %s" \
                      % (fname, contents, regex))
 
     def assert_re(self, txt, regex):
-        self.assert_(re.search(regex, txt),
+        self.assertTrue(re.search(regex, txt),
                      "Text %s does not match regex %s" % (txt, regex))
 
     def test_postprocess(self):
@@ -77,8 +78,10 @@ class PostProcessTests(saliweb.test.TestCase):
         """Test generate_all_chimerax method"""
         j = self.make_test_job(multifit.Job, 'RUNNING')
         d = saliweb.test.RunInDir(j.directory)
-        open('asmb.model.0.pdb', 'w')
-        open('asmb.model.1.pdb', 'w')
+        with open('asmb.model.0.pdb', 'w') as fh:
+            pass
+        with open('asmb.model.1.pdb', 'w') as fh:
+            pass
         calls = []
         def dummy_generate(self, pdb, flag):
             calls.append((pdb, flag))
@@ -95,8 +98,10 @@ class PostProcessTests(saliweb.test.TestCase):
         """Test generate_image_thumbnail method"""
         j = self.make_test_job(multifit.Job, 'RUNNING') 
         d = saliweb.test.RunInDir(j.directory)
-        open('asmb.model.0.pdb', 'w')
-        open('asmb.model.1.pdb', 'w')
+        with open('asmb.model.0.pdb', 'w') as fh:
+            pass
+        with open('asmb.model.1.pdb', 'w') as fh:
+            pass
         cmds = []
         def mock_call(cmd, *args, **keys):
             cmds.append(cmd)
@@ -109,8 +114,8 @@ class PostProcessTests(saliweb.test.TestCase):
         self.assertEqual(len(cmds), 2)
         for i in range(2):
             self.assert_re(cmds[i],
-                      'molauto asmb\.model\.%d\.pdb .*molscript \-r .*'
-                      'render \-size 50x50 \-jpeg > asmb\.model\.%d\.jpg' \
+                      r'molauto asmb\.model\.%d\.pdb .*molscript \-r .*'
+                      r'render \-size 50x50 \-jpeg > asmb\.model\.%d\.jpg' \
                       % (i, i))
 
     def test_generate_chimerax(self):
@@ -121,8 +126,8 @@ class PostProcessTests(saliweb.test.TestCase):
         os.mkdir('test1')
         j.generate_chimerax('test1/test.pdb', False)
         self.assert_file_contents_re('test1/test.chimerax',
-                 '<ChimeraPuppet .*<file\s+name="test1/test\.pdb" '
-                 '.*loc="http:.*testjob\/test1\/test\.pdb\?passwd=abc".*'
+                 r'<ChimeraPuppet .*<file\s+name="test1/test\.pdb" '
+                 r'.*loc="http:.*testjob\/test1\/test\.pdb\?passwd=abc".*'
                  '</ChimeraPuppet>')
         os.unlink('test1/test.chimerax')
         os.rmdir('test1')
@@ -130,10 +135,10 @@ class PostProcessTests(saliweb.test.TestCase):
         os.mkdir('test2')
         j.generate_chimerax('test2/foo.pdb', True)
         self.assert_file_contents_re('test2/foo.map.chimerax',
-                 '<ChimeraPuppet .*<file\s+name="test2/foo\.pdb" '
-                 '.*loc="http:.*testjob\/test2\/foo\.pdb\?passwd=abc".*'
-                 '<file\s+name="input\.mrc"'
-                 '.*loc="http://.*testjob\/input\.mrc\?passwd=abc".*'
+                 r'<ChimeraPuppet .*<file\s+name="test2/foo\.pdb" '
+                 r'.*loc="http:.*testjob\/test2\/foo\.pdb\?passwd=abc".*'
+                 r'<file\s+name="input\.mrc"'
+                 r'.*loc="http://.*testjob\/input\.mrc\?passwd=abc".*'
                  '</ChimeraPuppet>')
         os.unlink('test2/foo.map.chimerax')
         os.rmdir('test2')
