@@ -3,7 +3,7 @@
 <p>Packages are available for RedHat/CentOS 5 and Intel Mac systems
 (please note we are currently only able to offer binary packages).<br>&nbsp;</p>
 
-<p>A <a target="_blank" href="http://www.integrativemodeling.org/1.0/tutorial/multifit.html">tutorial</a>
+<p>A <a target="_blank" rel="noopener noreferrer" href="http://www.integrativemodeling.org/1.0/tutorial/multifit.html">tutorial</a>
 on using MultiFit is also available.<br>&nbsp;</p>
 
 <h3>RedHat/CentOS 5</h3>
@@ -12,7 +12,7 @@ on using MultiFit is also available.<br>&nbsp;</p>
 <p><a href="download/multifit-SVN.r241-1.x86_64.rpm">64-bit (x86_64) binary RPM package</a><br>&nbsp;</p>
 
 <p>MultiFit requires the
-<a target="_blank" href="http://www.salilab.org/imp/download.html">IMP 1.0</a> RPM package
+<a target="_blank" rel="noopener noreferrer" href="http://www.salilab.org/imp/download.html">IMP 1.0</a> RPM package
 to first be installed, and also the Python probstat RPM package
 (<a href="download/python-probstat-0.912-2.i386.rpm">32-bit</a>;
 <a href="download/python-probstat-0.912-2.x86_64.rpm">64-bit</a>;
@@ -26,5 +26,5 @@ to first be installed, and also the Python probstat RPM package
 <p><a href="download/MultiFit-SVN.r241-10.6.dmg">OS X 10.6 (Snow Leopard; 64-bit, Python 2.6)</a><br>&nbsp;</p>
 
 <p>MultiFit requires the corresponding
-<a target="_blank" href="http://www.salilab.org/imp/download.html">IMP 1.0</a> Mac package
+<a target="_blank" rel="noopener noreferrer" href="http://www.salilab.org/imp/download.html">IMP 1.0</a> Mac package
 to first be installed.</p>

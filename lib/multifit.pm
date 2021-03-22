@@ -49,27 +49,27 @@ sub get_footer {
 <hr />
 <table>
 <tr> <td align="center">
-<a target="_blank" href="http://bioinfo3d.cs.tau.ac.il/"><img height="25" src="$htmlroot/img/BioInfo3Dsmall.png" alt="BioInfo3D" /></a>
+<a target="_blank" rel="noopener noreferrer" href="http://bioinfo3d.cs.tau.ac.il/"><img height="25" src="$htmlroot/img/BioInfo3Dsmall.png" alt="BioInfo3D" /></a>
 </td><td>
-<a target="_blank" href="http://bioinfo3d.cs.tau.ac.il/">
+<a target="_blank" rel="noopener noreferrer" href="http://bioinfo3d.cs.tau.ac.il/">
 <b>BioInfo3D</b></a> Servers for protein structure analysis and modeling.
 </td>
 </tr>
 <tr><td align="center">
-<a target="_blank" href="http://www.emdatabank.org/"><img height="25" src="$htmlroot/img/EMDBsml.gif" alt="EMDB" /></a>&nbsp;
+<a target="_blank" rel="noopener noreferrer" href="http://www.emdatabank.org/"><img height="25" src="$htmlroot/img/EMDBsml.gif" alt="EMDB" /></a>&nbsp;
 </td><td>
-<a target="_blank" href="http://www.emdatabank.org/"><b>EMDB</b></a> Database for electron microscopy density maps.
+<a target="_blank" rel="noopener noreferrer" href="http://www.emdatabank.org/"><b>EMDB</b></a> Database for electron microscopy density maps.
 </td></tr>
 </table>
 <hr />
 <br />
-<a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/21715383">
+<a target="_blank" rel="noopener noreferrer" href="http://www.ncbi.nlm.nih.gov/pubmed/21715383">
 <b>E. Tjioe,  K. Lasker, B. Webb, H. Wolfson and A. Sali, Nucleic Acids Research, (2011) <i>39,</i> W167-W170</b></a>
-&nbsp;<a target="_blank" href="http://salilab.org/pdf/Tjioe_NucleicAcidsRes_2011.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
+&nbsp;<a target="_blank" rel="noopener noreferrer" href="http://salilab.org/pdf/Tjioe_NucleicAcidsRes_2011.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
 <br />
-<a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/20827723">
+<a target="_blank" rel="noopener noreferrer" href="http://www.ncbi.nlm.nih.gov/pubmed/20827723">
 <b>K. Lasker,  M. Topf, A. Sali and H. Wolfson, Journal of Molecular Biology, (2009) <i>388,</i> 180-194</b></a>
-&nbsp;<a target="_blank" href="http://salilab.org/pdf/Lasker_Proteins-StructFunctBioinform_2010a.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
+&nbsp;<a target="_blank" rel="noopener noreferrer" href="http://salilab.org/pdf/Lasker_Proteins-StructFunctBioinform_2010a.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
 </center>
 </div>
 FOOTER
