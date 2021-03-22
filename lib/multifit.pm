@@ -63,13 +63,13 @@ sub get_footer {
 </table>
 <hr />
 <br />
-<a target="_blank" rel="noopener noreferrer" href="http://www.ncbi.nlm.nih.gov/pubmed/21715383">
+<a target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/21715383">
 <b>E. Tjioe,  K. Lasker, B. Webb, H. Wolfson and A. Sali, Nucleic Acids Research, (2011) <i>39,</i> W167-W170</b></a>
-&nbsp;<a target="_blank" rel="noopener noreferrer" href="http://salilab.org/pdf/Tjioe_NucleicAcidsRes_2011.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
+&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://salilab.org/pdf/Tjioe_NucleicAcidsRes_2011.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
 <br />
-<a target="_blank" rel="noopener noreferrer" href="http://www.ncbi.nlm.nih.gov/pubmed/20827723">
+<a target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/20827723">
 <b>K. Lasker,  M. Topf, A. Sali and H. Wolfson, Journal of Molecular Biology, (2009) <i>388,</i> 180-194</b></a>
-&nbsp;<a target="_blank" rel="noopener noreferrer" href="http://salilab.org/pdf/Lasker_Proteins-StructFunctBioinform_2010a.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
+&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://salilab.org/pdf/Lasker_Proteins-StructFunctBioinform_2010a.pdf"><img src="$htmlroot/img/pdf.gif" alt="PDF" /></a><br />
 </center>
 </div>
 FOOTER
@@ -152,7 +152,7 @@ sub get_non_symmetry_mode {
     my $contents = "";
 
     
-    $contents .= $q->Tr($q->td("Non-symmetry mode is not currently available through this web service. There is, however, an equivalent <a href=\"http://integrativemodeling.org/2.4.0/doc/tutorial/multifit_3sfd.html\">command line tool</a> available as part of the <a href=\"http://integrativemodeling.org/\">IMP software</a>."));
+    $contents .= $q->Tr($q->td("Non-symmetry mode is not currently available through this web service. There is, however, an equivalent <a href=\"https://integrativemodeling.org/2.4.0/doc/tutorial/multifit_3sfd.html\">command line tool</a> available as part of the <a href=\"https://integrativemodeling.org/\">IMP software</a>."));
     return $contents;
 
     for ( my $j=0; $j < $print_subunit; $j++ ) 
