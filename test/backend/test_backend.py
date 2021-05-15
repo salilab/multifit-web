@@ -7,13 +7,14 @@ import os
 import re
 import subprocess
 
+
 class PostProcessTests(saliweb.test.TestCase):
     """Check postprocessing functions"""
 
     def test_archive(self):
         """Test archive function"""
         # Make a Multifit Job test job in ARCHIVED state
-        j = self.make_test_job(multifit.Job, 'ARCHIVED') 
+        j = self.make_test_job(multifit.Job, 'ARCHIVED')
         # Run the rest of this testcase in the job's directory
         with saliweb.test.working_directory(j.directory):
             # Make test PDB and JPG files and another incidental file
@@ -44,13 +45,15 @@ class PostProcessTests(saliweb.test.TestCase):
     def assert_file_contents_re(self, fname, regex):
         with open(fname) as fh:
             contents = fh.read()
-        self.assertTrue(re.search(regex, contents, re.MULTILINE | re.DOTALL),
-                     "Contents of file %s (%s) do not match regex %s" \
-                     % (fname, contents, regex))
+        self.assertTrue(
+            re.search(regex, contents, re.MULTILINE | re.DOTALL),
+            "Contents of file %s (%s) do not match regex %s"
+            % (fname, contents, regex))
 
     def assert_re(self, txt, regex):
-        self.assertTrue(re.search(regex, txt),
-                     "Text %s does not match regex %s" % (txt, regex))
+        self.assertTrue(
+            re.search(regex, txt),
+            "Text %s does not match regex %s" % (txt, regex))
 
     def test_postprocess(self):
         """Test postprocess method"""
@@ -58,9 +61,11 @@ class PostProcessTests(saliweb.test.TestCase):
         with saliweb.test.working_directory(j.directory):
             # Make sure that expected methods were called
             calls = []
+
             class MockMethod(object):
                 def __init__(self, name):
                     self.name = name
+
                 def __call__(self):
                     calls.append(self.name)
             old_thumb = multifit.Job.generate_image_thumbnail
@@ -78,11 +83,12 @@ class PostProcessTests(saliweb.test.TestCase):
         """Test generate_all_chimerax method"""
         j = self.make_test_job(multifit.Job, 'RUNNING')
         with saliweb.test.working_directory(j.directory):
-            with open('asmb.model.0.pdb', 'w') as fh:
+            with open('asmb.model.0.pdb', 'w'):
                 pass
-            with open('asmb.model.1.pdb', 'w') as fh:
+            with open('asmb.model.1.pdb', 'w'):
                 pass
             calls = []
+
             def dummy_generate(self, pdb, flag):
                 calls.append((pdb, flag))
             old_generate = multifit.Job.generate_chimerax
@@ -96,13 +102,14 @@ class PostProcessTests(saliweb.test.TestCase):
 
     def test_generate_image_thumbnail(self):
         """Test generate_image_thumbnail method"""
-        j = self.make_test_job(multifit.Job, 'RUNNING') 
+        j = self.make_test_job(multifit.Job, 'RUNNING')
         with saliweb.test.working_directory(j.directory):
-            with open('asmb.model.0.pdb', 'w') as fh:
+            with open('asmb.model.0.pdb', 'w'):
                 pass
-            with open('asmb.model.1.pdb', 'w') as fh:
+            with open('asmb.model.1.pdb', 'w'):
                 pass
             cmds = []
+
             def mock_call(cmd, *args, **keys):
                 cmds.append(cmd)
             old_call = subprocess.check_call
@@ -113,34 +120,38 @@ class PostProcessTests(saliweb.test.TestCase):
                 subprocess.check_call = old_call
             self.assertEqual(len(cmds), 2)
             for i in range(2):
-                self.assert_re(cmds[i],
-                          r'molauto asmb\.model\.%d\.pdb .*molscript \-r .*'
-                          r'render \-size 50x50 \-jpeg > asmb\.model\.%d\.jpg' \
-                          % (i, i))
+                self.assert_re(
+                    cmds[i],
+                    r'molauto asmb\.model\.%d\.pdb .*molscript \-r .*'
+                    r'render \-size 50x50 \-jpeg > asmb\.model\.%d\.jpg'
+                    % (i, i))
 
     def test_generate_chimerax(self):
         """Test generate_chimerax method"""
-        j = self.make_test_job(multifit.Job, 'RUNNING') 
+        j = self.make_test_job(multifit.Job, 'RUNNING')
         with saliweb.test.working_directory(j.directory):
             os.mkdir('test1')
             j.generate_chimerax('test1/test.pdb', False)
-            self.assert_file_contents_re('test1/test.chimerax',
-                     r'<ChimeraPuppet .*<file\s+name="test1/test\.pdb" '
-                     r'.*loc="http:.*testjob\/test1\/test\.pdb\?passwd=abc".*'
-                     '</ChimeraPuppet>')
+            self.assert_file_contents_re(
+                'test1/test.chimerax',
+                r'<ChimeraPuppet .*<file\s+name="test1/test\.pdb" '
+                r'.*loc="http:.*testjob\/test1\/test\.pdb\?passwd=abc".*'
+                '</ChimeraPuppet>')
             os.unlink('test1/test.chimerax')
             os.rmdir('test1')
 
             os.mkdir('test2')
             j.generate_chimerax('test2/foo.pdb', True)
-            self.assert_file_contents_re('test2/foo.map.chimerax',
-                     r'<ChimeraPuppet .*<file\s+name="test2/foo\.pdb" '
-                     r'.*loc="http:.*testjob\/test2\/foo\.pdb\?passwd=abc".*'
-                     r'<file\s+name="input\.mrc"'
-                     r'.*loc="http://.*testjob\/input\.mrc\?passwd=abc".*'
-                     '</ChimeraPuppet>')
+            self.assert_file_contents_re(
+                'test2/foo.map.chimerax',
+                r'<ChimeraPuppet .*<file\s+name="test2/foo\.pdb" '
+                r'.*loc="http:.*testjob\/test2\/foo\.pdb\?passwd=abc".*'
+                r'<file\s+name="input\.mrc"'
+                r'.*loc="http://.*testjob\/input\.mrc\?passwd=abc".*'
+                '</ChimeraPuppet>')
             os.unlink('test2/foo.map.chimerax')
             os.rmdir('test2')
+
 
 if __name__ == '__main__':
     unittest.main()

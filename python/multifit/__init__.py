@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 
+
 class Job(saliweb.backend.Job):
     runnercls = saliweb.backend.WyntonSGERunner
 
@@ -20,7 +21,7 @@ class Job(saliweb.backend.Job):
         cn_symmetry = float(par.readline().strip())
         symmetry_mode = int(par.readline().strip())
         par.close()
-        
+
         if symmetry_mode == 1:
             script = """
 module load Sali
@@ -29,13 +30,14 @@ cnmultifit surface input.pdb
 cnmultifit param -n 20 -- %d input.pdb input.mrc %f %f %f %f %f %f
 cnmultifit build multifit.param
 sleep 10
-""" % (cn_symmetry, resolution, spacing, threshold, x_origin, y_origin, z_origin)
+""" % (cn_symmetry, resolution, spacing, threshold, x_origin, y_origin,
+                z_origin)
 
         else:
             script = """
 export IMP=/wynton/home/sali/multifit/IMP
 export LD_LIBRARY_PATH=$IMP/build/lib
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_input.py -i asmb.input -- model input.subunit.list.txt 10 input.mrc %f %f %f %f %f %f 
+$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_input.py -i asmb.input -- model input.subunit.list.txt 10 input.mrc %f %f %f %f %f %f
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_all_surfaces.py asmb.input
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_anchor_graph.py asmb.input model.asmb.anchors
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/run_fitting_fft.py -p model.multifit.param  asmb.input input.subunit.list.txt -c 6
@@ -45,7 +47,7 @@ $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/align_proteomics_em_atomic
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/write_ensemble_models.py asmb.input combinations.output asmb.model
 $IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/prepare_results_for_dockref.py asmb.input combinations.output dockref.output
 sleep 10
-""" % (resolution, spacing, threshold, x_origin, y_origin, z_origin)
+""" % (resolution, spacing, threshold, x_origin, y_origin, z_origin)  # noqa: E501
 
         script += """
 mkdir asmb_models
@@ -62,27 +64,28 @@ rm -rf asmb_models
         self.generate_image_thumbnail()
         self.generate_all_chimerax()
 
-    def generate_image_thumbnail(self): 
+    def generate_image_thumbnail(self):
         output_pdbs = glob.glob('asmb.model.*.pdb')
         size = "50x50"
-        
+
         for pdb_in in output_pdbs:
             (filename, extension) = os.path.splitext(pdb_in)
             jpg_out = filename + ".jpg"
-            molscriptin = "/usr/bin/molauto %s -r 2> /dev/null \
-                         | /usr/bin/molscript -r 2> /dev/null \
-                         | /usr/bin/render -size %s -jpeg > %s" % (pdb_in, size, jpg_out) 
+            molscriptin = \
+                "/usr/bin/molauto %s -r 2> /dev/null \
+                | /usr/bin/molscript -r 2> /dev/null \
+                | /usr/bin/render -size %s -jpeg > %s" % (pdb_in, size,
+                                                          jpg_out)
             subprocess.check_call(molscriptin, shell=True)
 
-    def generate_all_chimerax(self): 
+    def generate_all_chimerax(self):
         output_pdbs = glob.glob('asmb.model.*.pdb')
 
         for pdb_in in output_pdbs:
             self.generate_chimerax(pdb_in, False)
-        #self.generate_chimerax("asmb.model.0.pdb", True) #chimerax with density map and PDB structure
 
     # Generate Chimera web data (chimerax) files
-    def generate_chimerax(self, pdb_in, include_map_flag): 
+    def generate_chimerax(self, pdb_in, include_map_flag):
         (filepath, jobdir) = os.path.split(self.url)
         pdb_temp = "/" + pdb_in + "?"
         pdb_url = re.sub(r'\?', pdb_temp, jobdir)
@@ -101,10 +104,10 @@ rm -rf asmb_models
         print("<ChimeraPuppet type=\"std_webdata\">", file=infile)
         print("<web_files>", file=infile)
         print("   <file  name=\"%s\" format=\"text\" loc=\"%s\" />"
-              %(pdb_in, full_path), file=infile)
+              % (pdb_in, full_path), file=infile)
         if include_map_flag:
             print("   <file  name=\"input.mrc\" format=\"mrc\" loc=\"%s\" />"
-                  %(map_path), file=infile)
+                  % map_path, file=infile)
         print("</web_files>", file=infile)
         print("""
 <commands>
@@ -139,13 +142,6 @@ rm -rf asmb_models
         for jpg in output_jpgs:
             os.unlink(jpg)
 
-        #output_chimerax = glob.glob('*.chimerax')
-        #t3 = tarfile.open('output-chimerax.tar.bz2', 'w:bz2')
-        #for chimerax in output_chimerax:
-        #    t3.add(chimerax)
-        #t3.close()
-        #for chimerax in output_chimerax:
-        #    os.unlink(chimerax)
 
 def get_web_service(config_file):
     db = saliweb.backend.Database(Job)
