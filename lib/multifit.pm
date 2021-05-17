@@ -26,7 +26,6 @@ sub get_navigation_links {
     return [
         $q->a({-href=>$self->index_url}, "MultiFit Home"),
         $q->a({-href=>$self->queue_url}, "Current Queue"),
-        #$q->a({-href=>$self->download_url}, "Download"),
         $q->a({-href=>$self->help_url}, "Help"),
         $q->a({-href=>$self->contact_url}, "Contact")
         #$q->a({-href=>$self->faq_url}, "FAQ"),
@@ -89,7 +88,6 @@ The scoring function is optimized by an exact inference optimizer DOMINO that
 efficiently finds the global minimum in a discrete sampling space.
 <br />&nbsp;</p>
 GREETING
-#<p>
 #You can also <a href="download.cgi">download the
 #MultiFit software</a> to run calculations on your own computer.
 #<br />&nbsp;</p>
@@ -491,11 +489,6 @@ sub display_failed_job {
                     $self->contact_url . "\">contact us</a> for " .
                     "further assistance.");
     return $return;
-}
-
-sub get_download_page {
-    my $self = shift;
-    return $self->get_text_file('download.txt');
 }
 
 1;

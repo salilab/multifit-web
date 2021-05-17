@@ -112,5 +112,3 @@
   <li>Subunit file <a href="html/file/1oel_subunit.pdb"><img src="html/img/file-icon.png" /></a></li>
 </ul>
 </p>
-
-<a name="resource"><h4>Related resources</h4></a>
