@@ -35,13 +35,6 @@
   <li><a id="file"><h5>Subunit coordinate file</h5></a>
       <p>Upload coordinate file of the subunit in PDB format.
       </p></li>
-  <li><a id="subunit_copies"><h5>Number of copies</h5></a>
-      <p>The number of subunit copies.
-      </p></li>
-  <li><a id="fitting_options"><h5>Fitting options</h5></a>
-      <p>Each subunit can be set to fit globally or locally. Local fitting means limited rotational and translational search around 
-         its current location.
-      </p></li>
   <li><a id="reset"><h5>Reset button</h5></a>
       <p>Reset all the input fields.
       </p></li>
@@ -117,19 +110,6 @@
   <li>Density threshold is set to 0.852</li>
   <li>X, Y, Z origins are set to -50, -50, -50</li>
   <li>Subunit file <a href="html/file/1oel_subunit.pdb"><img src="html/img/file-icon.png" /></a></li>
-</ul>
-</p>
-<p>For non-symmetry example in building 1z5s, set the input data as follows:
-<ul>
-  <li>EM density map <a href="html/file/1z5s_15.mrc"><img src="html/img/file-icon.png" /></a></li>
-  <li>Resolution is set to 15</li>
-  <li>Spacing is set to 2</li>
-  <li>Density threshold is set to 300</li>
-  <li>X, Y, Z origins are set to 30, 4, -96</li>
-  <li>1 copy for subunit 1<a href="html/file/1z5s_A.pdb"><img src="html/img/file-icon.png" /></a></li>
-  <li>1 copy for subunit 2<a href="html/file/1z5s_B.pdb"><img src="html/img/file-icon.png" /></a></li>
-  <li>1 copy for subunit 3<a href="html/file/1z5s_C.pdb"><img src="html/img/file-icon.png" /></a></li>
-  <li>1 copy for subunit 4<a href="html/file/1z5s_D.pdb"><img src="html/img/file-icon.png" /></a></li>
 </ul>
 </p>
 
