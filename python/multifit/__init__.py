@@ -19,43 +19,23 @@ class Job(saliweb.backend.Job):
         y_origin = float(par.readline().strip())
         z_origin = float(par.readline().strip())
         cn_symmetry = float(par.readline().strip())
-        symmetry_mode = int(par.readline().strip())
         par.close()
 
-        if symmetry_mode == 1:
-            script = """
+        script = """
 module load Sali
 module load imp
 cnmultifit surface input.pdb
 cnmultifit param -n 20 -- %d input.pdb input.mrc %f %f %f %f %f %f
 cnmultifit build multifit.param
 sleep 10
-""" % (cn_symmetry, resolution, spacing, threshold, x_origin, y_origin,
-                z_origin)
-
-        else:
-            script = """
-export IMP=/wynton/home/sali/multifit/IMP
-export LD_LIBRARY_PATH=$IMP/build/lib
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_input.py -i asmb.input -- model input.subunit.list.txt 10 input.mrc %f %f %f %f %f %f
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_all_surfaces.py asmb.input
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_assembly_anchor_graph.py asmb.input model.asmb.anchors
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/run_fitting_fft.py -p model.multifit.param  asmb.input input.subunit.list.txt -c 6
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/generate_indexes_from_fitting_solutions.py model asmb.input 10
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/create_auto_proteomics_file.py asmb.input model.asmb.anchors.txt  model.proteomics.input
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/align_proteomics_em_atomic_plan.py -m 30 asmb.input model.proteomics.input model.indexes.mapping.input model.alignment.param model.docking.param combinations.output scores.output
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/write_ensemble_models.py asmb.input combinations.output asmb.model
-$IMP/tools/imppy.sh python $IMP/modules/multifit2/bin/prepare_results_for_dockref.py asmb.input combinations.output dockref.output
-sleep 10
-""" % (resolution, spacing, threshold, x_origin, y_origin, z_origin)  # noqa: E501
-
-        script += """
 mkdir asmb_models
 cp asmb.model.*.pdb asmb_models
 tar cf asmb_models.tar asmb_models
 gzip -9 asmb_models.tar
 rm -rf asmb_models
-"""
+""" % (cn_symmetry, resolution, spacing, threshold, x_origin, y_origin,
+                z_origin)
+
         r = self.runnercls(script)
         r.set_sge_options('-l h_rt=72:00:00 -j y -o multifit.log')
         return r

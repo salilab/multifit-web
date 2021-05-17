@@ -128,7 +128,6 @@ sub get_complex_information_input {
                              $q->table($self->get_symmetry_mode())) .
                          $q->div({-class=>'tabbertab'},
                              $q->h2("Non-Symmetry Mode"),
-                             #$q->table($self->get_non_symmetry_mode(4, 0) . $self->get_more())) 
                              $q->table($self->get_non_symmetry_mode(4, 0))) 
                       )));
 }
@@ -154,43 +153,6 @@ sub get_non_symmetry_mode {
     
     $contents .= $q->Tr($q->td("Non-symmetry mode is not currently available through this web service. There is, however, an equivalent <a href=\"https://integrativemodeling.org/2.4.0/doc/tutorial/multifit_3sfd.html\">command line tool</a> available as part of the <a href=\"https://integrativemodeling.org/\">IMP software</a>."));
     return $contents;
-
-    for ( my $j=0; $j < $print_subunit; $j++ ) 
-    {
-        my $pdb_name = "non_symm_pdb" . $start_value;
-        my $subunit_name = "subunit" . $start_value;
-        my $fit_opt_name = "fit_opt" . $start_value;
-        $contents .= $q->Tr($q->td("Subunit pdb coordinate file",
-                                $self->help_link("file"), $q->br,
-                                $q->filefield({-name=>$pdb_name})),
-                            $q->td("Number of copies",
-                                $self->help_link("subunit_copies"), $q->br, 
-                                $q->textfield({-name=>$subunit_name,
-                                               -size=>"5"})), 
-                            $q->td("&nbsp; &nbsp; &nbsp;"),
-                            $q->td("Fitting option:",
-                                   $self->help_link("fitting_options"), $q->br,
-                                   $q->radio_group({-name     =>$fit_opt_name,
-                                                    -values   =>['global fit','local fit'],
-                                                    -default  =>'global fit',
-                                                    -linebreak=>'false'}))) .
-                     $q->Tr($q->td());
-        $start_value++;
-    }
-    return $contents;
-}
-
-sub get_more {
-    my $self = shift;
-    my $q = $self->cgi;
-    return
-       $q->Tr($q->td($q->a({-href=>'#',
-                            -id=>'moretoggle',
-                            -onClick=>"toggle_visibility_tbody('more', 'moretoggle'); " .
-                                      "return false;"},
-                                      "Show add more subunits"))) .
-       $q->tbody({-id=>'more', -style=>'display:none'},
-                 $self->get_non_symmetry_mode(3,4));
 }
 
 sub get_map_information_input {
@@ -317,34 +279,9 @@ sub get_submit_page {
         throw saliweb::frontend::InputValidationError(
                    "Please upload input density map.");
     }
-    my @input_non_symm_pdbs = ();
-    my @subunit_copies = ();
-    my @fitting_options = ();
-    for (my $i=0; $i < 5; $i++){
-        my $input_ns_pdb = $q->upload('non_symm_pdb' . $i);
-        if (defined ($input_ns_pdb)){
-           my $fit_option  = $q->param('fit_opt' . $i);
-           my $sub_copy = $q->param('subunit' . $i);
-           if ($sub_copy eq int($sub_copy) && $sub_copy < 1) {
-                throw saliweb::frontend::InputValidationError(
-                   "Number of copies for subunit $i is missing or invalid.");
-           }
-           push (@input_non_symm_pdbs, $input_ns_pdb); 
-           push (@subunit_copies, $sub_copy); 
-           push (@fitting_options, $fit_option); 
-        }
-    }
-    if (defined ($input_symm_pdb) && scalar(@input_non_symm_pdbs) > 0){
+    if (!defined ($input_symm_pdb)) {
         throw saliweb::frontend::InputValidationError(
-                   "Please select only one mode, symmetry or non-symmetry mode.");
-    }
-    if (!defined ($input_symm_pdb) && scalar(@input_non_symm_pdbs) == 0){
-        throw saliweb::frontend::InputValidationError(
-                   "Please select either symmetry or non-symmetry mode.");
-    }
-    if (defined ($input_symm_pdb) && $cn_symmetry eq ""){
-        throw saliweb::frontend::InputValidationError(
-                   "Please input the symmetry order.");
+                   "Please select upload subunit PDB coordinate file.");
     }
     # Create job directory, add input files, then submit the job
     my $job = $self->make_job($job_name);
@@ -353,39 +290,8 @@ sub get_submit_page {
     my $output_file_name = $jobdir . "/input.mrc";
     $self->write_input_map_file ($input_map, $output_file_name);
    
-    my $symmetry_mode = 0;
-    if (defined ($input_symm_pdb)){
-        $symmetry_mode = 1;
-        $output_file_name = $jobdir . "/input.pdb";
-        $self->write_input_pdb_file ($input_symm_pdb, $output_file_name);
-    }
-    else{
-        my $subinput_file = $jobdir . "/input.subunit.list.txt";
-        open(SUBINPARAM, "> $subinput_file")
-            or throw saliweb::frontend::InternalError("Cannot open $subinput_file: $!");
-        my $k = 0;
-	foreach my $ns_pdb (@input_non_symm_pdbs){
-            my $fit_opt;
-            if ($fitting_options[$k] eq 'global fit'){
-               $fit_opt = 1;
-            }
-            else{ 
-               $fit_opt = 0;
-            }
-            my $protein_subunit_copy = $subunit_copies[$k];
-            my $file_name  = "ns_input_" . $k . ".pdb";
-            $output_file_name = $jobdir . "/" . $file_name;
-            $self->write_input_pdb_file ($ns_pdb, $output_file_name);
-
-            for ( my $copy=0; $copy < $protein_subunit_copy; $copy++ ) {
-               my $protein_name  = "input" . $k . "_" . $copy;
-               print SUBINPARAM "$protein_name $file_name 1\n";
-            }
-            $k++;
-        }
-        close SUBINPARAM
-            or throw saliweb::frontend::InternalError("Cannot close $subinput_file: $!");
-    }
+    $output_file_name = $jobdir . "/input.pdb";
+    $self->write_input_pdb_file ($input_symm_pdb, $output_file_name);
 
     my $input_param = $jobdir . "/param.txt";
     open(INPARAM, "> $input_param")
@@ -397,7 +303,6 @@ sub get_submit_page {
     print INPARAM "$y_origin\n";
     print INPARAM "$z_origin\n";
     print INPARAM "$cn_symmetry\n";
-    print INPARAM "$symmetry_mode\n";
 
     close INPARAM
        or throw saliweb::frontend::InternalError("Cannot close $input_param: $!");
@@ -488,8 +393,6 @@ sub get_results_page {
     my $q = $self->cgi;
     if (-f "multifit.output") {
         return $self->display_ok_symm_job($q, $job);
-    } elsif (-f "scores.output"){
-        return $self->display_ok_non_symm_job($q, $job);
     } else{
         return $self->display_failed_job($q, $job);
     }
@@ -522,32 +425,6 @@ sub read_multifit_output_file {
 
    return %fit_solution;
 }
-
-sub read_scores_output_file {
-   my %ns_fit_solution;
-   if (! -f 'scores.output'){
-       print "scores.output file doesn't exist.\n";
-       return;
-   }
-   open(MULT_OUT, "< scores.output") or die "Can't open scores.output: $!";
-
-   my @header_array = ("tt", "comb_score", "fitting_score");
-   while(<MULT_OUT>){
-      my @line_array = split (/\|/, $_);
-      my $i = 0;
-	    foreach my $header (@header_array){
-   	    push @{ $ns_fit_solution{$header} }, $line_array[$i++];
-	    }
-   }
-   close MULT_OUT or die "Can't close scores.output: $!";
-
-   return %ns_fit_solution;
-}
-
-
-
-
-
 
 sub display_ok_symm_job {
    my ($self, $q, $job) = @_;
@@ -589,55 +466,6 @@ sub display_ok_symm_job {
    $return.= $q->p("<BR>Download <a href=\"" . 
           $job->get_results_file_url("multifit.output") .
           "\">multifit.output</a>, <a href=\"" .
-          $job->get_results_file_url("asmb_models.tar.gz") .
-          "\">asmb_models.tar.gz</a>.");
-
-   $return .= $job->get_results_available_time();
-
-   return $return;
-}
-
-sub display_ok_non_symm_job {
-   my ($self, $q, $job) = @_;
-   my $return= $q->p("Job '<b>" . $job->name . "</b>' has completed.");
-
-   my %ns_fit_solution = read_scores_output_file();
-   if (!%ns_fit_solution){
-       return $self->display_failed_job($q, $job);
-   }
-
-   my $total_solution = scalar @{$ns_fit_solution{"fitting_score"}};
-   my $contents = "";
-   my $total_column = 5;
-   my $j=0;
-
-   for ( my $row=0; $row < ($total_solution-1)/$total_column; $row++ )
-   {
-     my $td = "";
-     for ( my $column=0; $column < $total_column; $column++ ){
-       my $cc_score = 1-$ns_fit_solution{"fitting_score"}[$j]; 
-       $cc_score = sprintf ("%.3f", $cc_score);
-       my $pdb_file      = "asmb.model." . $j . ".pdb"; 
-       my $image_file    = "asmb.model." . $j . ".jpg"; 
-       my $chimerax_file = "asmb.model." . $j . ".chimerax"; 
-       my $image_url    = $job->get_results_file_url($image_file);
-       my $chimerax_url = $job->get_results_file_url($chimerax_file);
-       my $job_url      = $job->get_results_file_url($pdb_file);
-
-       $td .= $q->td("<a href=\"$chimerax_url\"><img src=\"$image_url\"></img></a><br>" .
-                     "<a href=\"$job_url\">" . $pdb_file . "</a><br>" .
-                     "CC score=" . $cc_score);
-       $j++;
-     }
-     $contents .= $q->Tr($td);
-   }
-   $return.= $q->p($q->table($contents));
-
-   $return.= $q->p("<BR>Download <a href=\"" . 
-          $job->get_results_file_url("scores.output") .
-          "\">scores.output</a>, <a href=\"" .
-          $job->get_results_file_url("dockref.output") .
-          "\">dockref.output</a>, <a href=\"" .
           $job->get_results_file_url("asmb_models.tar.gz") .
           "\">asmb_models.tar.gz</a>.");
 
