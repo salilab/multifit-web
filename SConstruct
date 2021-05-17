@@ -8,7 +8,7 @@ env.InstallAdminTools()
 env.InstallCGIScripts()
 
 Export('env')
-SConscript('python/multifit/SConscript')
+SConscript('backend/multifit/SConscript')
 SConscript('lib/SConscript')
 SConscript('txt/SConscript')
 SConscript('html/SConscript')
