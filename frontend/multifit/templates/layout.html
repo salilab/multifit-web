@@ -1,0 +1,53 @@
+{% extends "saliweb/layout.html" %}
+
+{%- block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for("static", filename='js/tab.css') }}" />
+{%- endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{{ url_for("static", filename='js/tab.js') }}"></script>
+{% endblock %}
+
+{% block navigation %}
+{{ get_navigation_links(
+       [(url_for("index"), "MultiFit Home"),
+        (url_for("job"), "Current Queue"),
+        (url_for("help"), "Help"),
+        (url_for("contact"), "Contact")])
+}}
+{% endblock %}
+
+{% block sidebar %}
+<p>&nbsp;</p>
+{% endblock %}
+
+{% block footer %}
+<div id="address">
+<center>
+<hr />
+<table>
+<tr> <td align="center">
+<a target="_blank" rel="noopener noreferrer" href="http://bioinfo3d.cs.tau.ac.il/"><img height="25" src="{{ url_for("static", filename='img/BioInfo3Dsmall.png') }}" alt="BioInfo3D" /></a>
+</td><td>
+<a target="_blank" rel="noopener noreferrer" href="http://bioinfo3d.cs.tau.ac.il/">
+<b>BioInfo3D</b></a> Servers for protein structure analysis and modeling.
+</td>
+</tr>
+<tr><td align="center">
+<a target="_blank" rel="noopener noreferrer" href="http://www.emdatabank.org/"><img height="25" src="{{ url_for("static", filename='img/EMDBsml.gif') }}" alt="EMDB" /></a>&nbsp;
+</td><td>
+<a target="_blank" rel="noopener noreferrer" href="http://www.emdatabank.org/"><b>EMDB</b></a> Database for electron microscopy density maps.
+</td></tr>
+</table>
+<hr />
+<br />
+<a target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/21715383">
+<b>E. Tjioe,  K. Lasker, B. Webb, H. Wolfson and A. Sali, Nucleic Acids Research, (2011) <i>39,</i> W167-W170</b></a>
+&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://salilab.org/pdf/Tjioe_NucleicAcidsRes_2011.pdf"><img src="{{ url_for("static", filename='img/pdf.gif') }}" alt="PDF" /></a><br />
+<br />
+<a target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/20827723">
+<b>K. Lasker,  M. Topf, A. Sali and H. Wolfson, Journal of Molecular Biology, (2009) <i>388,</i> 180-194</b></a>
+&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://salilab.org/pdf/Lasker_Proteins-StructFunctBioinform_2010a.pdf"><img src="{{ url_for("static", filename='img/pdf.gif') }}" alt="PDF" /></a><br />
+</center>
+</div>
+{% endblock %}

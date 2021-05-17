@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}SAXS Merge Job Submission{% endblock %}
+
+{% block meta %}
+<meta http-equiv="refresh" content="{{ job.get_refresh_time(10) }}" />
+{% endblock %}
+
+{% block body %}
+<h1>Job Submitted</h1>
+
+<hr />
+
+<p>Your job <b>{{ job.name }}</b> has been submitted.</p>
+
+<p>The job is currently running. When it is complete, results will be found
+here - simply refresh or bookmark this page.</p>
+
+{%- if job.email %}
+<p>You will be notified at {{ job.email }} when job results are available.<p>
+{%- endif %}
+
+{% endblock %}

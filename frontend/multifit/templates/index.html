@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}MultiFit Webserver{% endblock %}
+
+{% block body %}
+<h2 align="left">MultiFit: Fitting of multiple proteins into their assembly density map</h2>
+
+<form method="post" action="{{ url_for("job") }}" enctype="multipart/form-data" name="multifit_form">
+
+<table>
+<tr><td colspan="2"><p>MultiFit is a computational method for simultaneously fitting atomic structures
+of components into their assembly density map at resolutions as low as 25 &#8491;.
+The component positions and orientations are optimized with respect to a scoring
+function that includes the quality-of-fit of components in the map, the protrusion
+of components from the map envelope, as well as the shape complementarity between
+pairs of components.
+The scoring function is optimized by an exact inference optimizer DOMINO that
+efficiently finds the global minimum in a discrete sampling space.
+<br />&nbsp;</p>
+</td></tr>
+
+<tr><td><h4>General information</h4></td></tr>
+<tr><td>Email address {{ help_link("email") }}<br /></td> <td><input type="text" name="email" value="{{ g.user.email }}" size="25" /></td></tr>
+<tr><td>Name your job</td> <td><input type="text" name="job_name"  size="25" /></td></tr>
+<tr><td><h4>Complex EM density map information</h4></td></tr>
+<tr><td>Upload EM density map {{ help_link("map") }}<br /></td> <td><input type="file" name="map"  /></td></tr>
+<tr><td>Resolution {{ help_link("resolution") }}</td> <td><input type="text" name="resolution"  size="25" /></td></tr>
+<tr><td>Voxel spacing {{ help_link("spacing") }}</td> <td><input type="text" name="spacing"  size="25" /></td></tr>
+<tr><td>Contour level {{ help_link("threshold") }}</td> <td><input type="text" name="threshold"  size="25" /></td></tr>
+<tr><td><a href="#" id="optionaltoggle" onclick="toggle_visibility_tbody('optional', 'optionaltoggle'); return false;">Show optional parameters</a></td></tr><tbody id="optional" style="display:none">
+<tr><td>X origin {{ help_link("origin") }}<br /></td> <td><input type="text" name="x_origin"  size="25" /></td></tr>
+<tr><td>Y origin {{ help_link("origin") }}<br /></td> <td><input type="text" name="y_origin"  size="25" /></td></tr>
+<tr><td>Z origin {{ help_link("origin") }}<br /></td> <td><input type="text" name="z_origin"  size="25" /></td></tr></tbody>
+<tr><td><h4>Complex information</h4></td></tr>
+<tr><td>Select symmetry mode {{ help_link("symmetry_mode") }}</td></tr>
+<tr><td colspan="3"><div class="tabber"><div class="tabbertab"><h2>Cyclic Symmetry Mode</h2> <table>
+<tr><td>Subunit pdb coordinate file {{ help_link("file") }}<br /></td> <td><input type="file" name="symm_pdb"  /></td></tr>
+<tr><td>Symmetry order {{ help_link("cn_symmetry") }}</td> <td><input type="text" name="cn_symmetry"  size="25" /></td></tr></table></div><div class="tabbertab"><h2>Non-Symmetry Mode</h2> <table>
+<tr><td>Non-symmetry mode is not currently available through this web service. There is, however, an equivalent <a href="https://integrativemodeling.org/2.4.0/doc/tutorial/multifit_3sfd.html">command line tool</a> available as part of the <a href="https://integrativemodeling.org/">IMP software</a>.</td></tr></table></div></div></td></tr></table><table>
+<tr><td colspan="2"><input type="submit" value="Process job" /><input type="reset" value="Reset all values" /><p>&nbsp;</p></td></tr>
+
+</table>
+</form>
+{% endblock %}

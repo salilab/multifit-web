@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block title %}SAXS Merge Results{% endblock %}
+
+{% block body %}
+<p>
+No output file was produced. Please inspect the log file
+to determine the problem.</p>
+
+<p><a href="{{ job.get_results_file_url('saxsmerge.log') }}">View SAXS Merge log file</a>.<p>
+{% endblock %}

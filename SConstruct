@@ -9,7 +9,7 @@ env.InstallCGIScripts()
 
 Export('env')
 SConscript('backend/multifit/SConscript')
-SConscript('lib/SConscript')
+SConscript('frontend/multifit/SConscript')
 SConscript('txt/SConscript')
 SConscript('html/SConscript')
 SConscript('test/SConscript')
