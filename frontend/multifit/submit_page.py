@@ -47,7 +47,7 @@ def handle_new_job():
 
     # write parameters
     with open(job.get_path('param.txt'), 'w') as datafile:
-        print("%f\n%f\n%f\n%f\n%f\n%f\n%d\n"
+        print("%f\n%f\n%f\n%f\n%f\n%f\n%d"
               % (resolution, spacing, threshold, x_origin, y_origin,
                  z_origin, cn_symmetry), file=datafile)
 
