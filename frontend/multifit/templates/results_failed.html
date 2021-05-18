@@ -1,11 +1,16 @@
 {% extends "layout.html" %}
 
-{% block title %}SAXS Merge Results{% endblock %}
+{% block title %}MultiFit Webserver Results{% endblock %}
 
 {% block body %}
-<p>
-No output file was produced. Please inspect the log file
-to determine the problem.</p>
+<p>Your MultiFit job <b>{{ job.name }}</b> failed to produce any output models.</p>
 
-<p><a href="{{ job.get_results_file_url('saxsmerge.log') }}">View SAXS Merge log file</a>.<p>
+<p>This is usually caused by incorrect inputs (e.g. corrupt PDB file,
+inappropriate voxel spacing or contour level).</p>
+
+<p>For more information, you can download the
+<a href="{{ job.get_results_file_url('multifit.log') }}">MultiFit log file</a>. 
+<br />
+If the problem is not clear from this log, please <a href="{{ url_for("contact") }}">contact us</a> for further assistance.
+</p>
 {% endblock %}
