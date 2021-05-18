@@ -2,17 +2,18 @@ import unittest
 import saliweb.test
 import os
 import re
-from werkzeug.datastructures import FileStorage
 
 
 # Import the multifit frontend with mocks
 multifit = saliweb.test.import_mocked_frontend("multifit", __file__,
                                                '../../frontend')
 
+
 def get_default_submit_parameters():
     return {'resolution': 4.0, 'spacing': 1.0, 'threshold': 0.1,
             'x_origin': 0.0, 'y_origin': 10.0, 'z_origin': 30.0,
             'cn_symmetry': 4}
+
 
 class Tests(saliweb.test.TestCase):
     """Check submit page"""

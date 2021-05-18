@@ -2,6 +2,7 @@ import saliweb.frontend
 import os
 import csv
 
+
 def read_multifit_output_file(job):
     fname = job.get_path('multifit.output')
     if not os.path.exists(fname):

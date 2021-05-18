@@ -11,7 +11,7 @@ def get_output():
     return """solution index | solution filename | fit rotation | fit translation  | match size | match average distance |  envelope penetration score | fitting score|dock rotation | dock translation | RMSD to reference
 0|asmb.model.0.pdb|0.0337689 -0.00835729 0.0018406 -0.999393|43.7796 85.915 84.2254|0|-1|-1|0.0854502|0.900969 -0.00756934 0.00111879 -0.433816|-18.3563 -30.6263 0.241108|-1
 2|asmb.model.1.pdb|0.0840649 0.0815502 0.0090198 -0.993077|33.9721 88.0333 84.2464|0|-1|-1|0.163918|0.900969 0.0704937 0.00114512 -0.428117|-27.4183 -34.4749 -4.60705|-1
-"""
+"""  # noqa: E501
 
 
 class Tests(saliweb.test.TestCase):
@@ -33,7 +33,7 @@ class Tests(saliweb.test.TestCase):
             r = re.compile(
                 b'Your MultiFit job.*testjob3.*failed to produce any '
                 b'output models.*For more information, '
-                b'you can download the.*multifit\.log.*MultiFit log file.*'
+                rb'you can download the.*multifit\.log.*MultiFit log file.*'
                 b'contact us',
                 re.MULTILINE | re.DOTALL)
             self.assertRegex(rv.data, r)

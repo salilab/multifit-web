@@ -34,7 +34,7 @@ tar cf asmb_models.tar asmb_models
 gzip -9 asmb_models.tar
 rm -rf asmb_models
 """ % (cn_symmetry, resolution, spacing, threshold, x_origin, y_origin,
-                z_origin)
+            z_origin)
 
         r = self.runnercls(script)
         r.set_sge_options('-l h_rt=72:00:00 -j y -o multifit.log')
