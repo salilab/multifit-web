@@ -11,55 +11,54 @@
   <li><a href="#resource">Related Resources</a></li>
 </ul>
 
-<a name="input"><h4>Input Fields</h4></a>
+<h4><a name="input">Input Fields</a></h4>
 <ul>
-  <li><a id="email"><h5>Email</h5></a>
+  <li><h5><a id="email">Email</a></h5>
       <p>If set, a notification will be sent once the job is completed. 
       </p></li>
-  <li><a id="map"><h5>Complex density map</h5></a>
+  <li><h5><a id="map">Complex density map</a></h5>
       <p>The assembly density map in MRC format.
       </p></li>
-  <li><a id="resolution"><h5>Resolution</h5></a>
+  <li><h5><a id="resolution">Resolution</a></h5>
       <p>The resolution of the assembly density map in angstroms.
       </p></li>
-  <li><a id="spacing"><h5>Voxel spacing</h5></a>
+  <li><h5><a id="spacing">Voxel spacing</a></h5>
       <p>The dimension of a single voxel.
       </p></li>
-  <li><a id="threshold"><h5>Contour level</h5></a>
+  <li><h5><a id="threshold">Contour level</a></h5>
       <p>Consider voxels with density values above the threshold.
       </p></li>
-  <li><a id="origin"><h5>X, Y, and Z origins</h5></a>
+  <li><h5><a id="origin">X, Y, and Z origins</a></h5>
       <p>Optional parameters for x, y, and z origins. If not given, origins are set to 0, 0, 0.
       </p></li>
- <li><a id="symmetry_mode"><h5>symmetry mode</h5></a>
+ <li><h5><a id="symmetry_mode">symmetry mode</a></h5>
       <p>Select if the complex is cyclic symmetric or non symmetric. Symmetry is used in the sampling procedure for cyclic symmetric structures.
       </p></li>
-  <li><a id="cn_symmetry"><h5>Symmetry order</h5></a>
+  <li><h5><a id="cn_symmetry">Symmetry order</a></h5>
       <p>The symmetry order of the ring (3 for trimer, 4 for tetramer etc.).
       </p></li>
-  <li><a id="file"><h5>Subunit coordinate file</h5></a>
+  <li><h5><a id="file">Subunit coordinate file</a></h5>
       <p>Upload coordinate file of the subunit in PDB format.
       </p></li>
-  <li><a id="reset"><h5>Reset button</h5></a>
+  <li><h5><a id="reset">Reset button</a></h5>
       <p>Reset all the input fields.
       </p></li>
 </ul>
-<a name="output"><h4>Output</h4></a>
+<h4><a name="output">Output</a></h4>
 <p>
-       The output is a set of models that best fit the density map.</br>
-       <br>The first top 20 models are displayed as a table ranked from top-left to bottom-right and the complete list
-       of models is found in the transformations output file (multifit.output).</br>
+       The output is a set of models that best fit the density map.<br />
+       <br />The first top 20 models are displayed as a table ranked from top-left to bottom-right and the complete list
+       of models is found in the transformations output file (multifit.output).<br />
 </p>
-<br>
-<p>
+<p />
+
 <h5>Top 20 models</h5>
-</p>
-<img src="{{ url_for("static", filename='img/output.png') }}" height=350 />
-<p>
+<img src="{{ url_for("static", filename='img/output.png') }}" height="350" alt="example output" />
+<p />
    <h5>MultiFit.output file</h5>
    This output file reports MultiFit assembly modeling solutions. Each line of 11 fields defined a single
    model. The solutions are sorted by fitting scores. 
-</p>
+<p />
    <ul>
      <li><h5>Solution index</h5>
         <p>The index of the solution.
@@ -86,12 +85,12 @@
         </p></li>
      <li><h5>Fitting score</h5>
         <p>The fitting score is defined as 1 - cross correlation score.
-           The cross correlation (<font face="Computer Modern" color="black"><i>CC</i></font>) score is defined as: <br>
-	   <img src="{{ url_for("static", filename='img/eqn_cc.png') }}" align="middle" /> &nbsp;, where <img src="{{ url_for("static", filename='img/eqn_vox.png') }}" /> represents all voxels
+           The cross correlation (<font face="Computer Modern" color="black"><i>CC</i></font>) score is defined as: <br />
+	   <img src="{{ url_for("static", filename='img/eqn_cc.png') }}" align="middle" alt="cross correlation function" /> &nbsp;, where <img src="{{ url_for("static", filename='img/eqn_vox.png') }}" alt="voxel" /> represents all voxels
            in the density grid that are within two times the map resolution from any of the atoms of
            the protein; and where the total density of <font color="black"><i>P</i></font> at grid point<font color="black"> <i>i</i> </font>is &nbsp;
-	   <img src="{{ url_for("static", filename='img/eqn_sum.png') }}" align="middle" /> &nbsp;. The values of the <font face="Computer Modern" color="black"><i>CC</i></font> score range from 0 to 1, where
-           1 indicates a perfect fit.<br>
+	   <img src="{{ url_for("static", filename='img/eqn_sum.png') }}" align="middle" alt="density" /> &nbsp;. The values of the <font face="Computer Modern" color="black"><i>CC</i></font> score range from 0 to 1, where
+           1 indicates a perfect fit.<br />
         </p></li>
      <li><h5>Dock rotation</h5>
         <p>The rotation part (in quaternions) of a transformation found by a docking procedure.
@@ -105,16 +104,16 @@
         </p></li>
      </ul>
 
-<a name="example"><h4>Examples</h4></a>
+<h4><a name="example">Examples</a></h4>
 <p>For symmetry example in building a chaperon ring, set the input data as follows:
+</p>
 <ul>
   <li>Number of Cn Symmetry set to 7</li>
-  <li>EM density map <a href="{{ url_for("static", filename='file/emd_1080_one_ring.mrc') }}"><img src="{{ url_for("static", filename='img/file-icon.png') }}" /></a></li>
+  <li>EM density map <a href="{{ url_for("static", filename='file/emd_1080_one_ring.mrc') }}"><img src="{{ url_for("static", filename='img/file-icon.png') }}" alt="download" /></a></li>
   <li>Resolution is set to 11.5</li>
   <li>Spacing is set to 2.7</li>
   <li>Density threshold is set to 0.852</li>
   <li>X, Y, Z origins are set to -50, -50, -50</li>
-  <li>Subunit file <a href="{{ url_for("static", filename='file/1oel_subunit.pdb') }}"><img src="{{ url_for("static", filename='img/file-icon.png') }}" /></a></li>
+  <li>Subunit file <a href="{{ url_for("static", filename='file/1oel_subunit.pdb') }}"><img src="{{ url_for("static", filename='img/file-icon.png') }}" alt="download" /></a></li>
 </ul>
-</p>
 {% endblock %}
