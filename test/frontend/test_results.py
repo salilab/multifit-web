@@ -17,13 +17,26 @@ def get_output():
 class Tests(saliweb.test.TestCase):
     """Check results page"""
 
+    def test_mime_type(self):
+        """Test MIME type"""
+        self.assertEqual(multifit.get_mime_type('asmb.model.0.chimerax'),
+                         'application/x-chimerax')
+        self.assertEqual(multifit.get_mime_type('asmb.model.0.pdb'),
+                         'chemical/x-pdb')
+        self.assertEqual(multifit.get_mime_type('multifit.output'),
+                         'text/plain')
+        self.assertIsNone(multifit.get_mime_type('multifit.foo'))
+
     def test_results_file(self):
         """Test download of results files"""
         with saliweb.test.make_frontend_job('testjob') as j:
             j.make_file('multifit.log')
+            j.make_file('not-allowed.log')
             c = multifit.app.test_client()
             rv = c.get('/job/testjob/multifit.log?passwd=%s' % j.passwd)
             self.assertEqual(rv.status_code, 200)
+            rv = c.get('/job/testjob/not-allowed.log?passwd=%s' % j.passwd)
+            self.assertEqual(rv.status_code, 404)
 
     def test_failed_job(self):
         """Test display of failed job"""
