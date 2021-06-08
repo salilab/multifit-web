@@ -11,15 +11,14 @@ class Job(saliweb.backend.Job):
     runnercls = saliweb.backend.WyntonSGERunner
 
     def run(self):
-        par = open('param.txt', 'r')
-        resolution = float(par.readline().strip())
-        spacing = float(par.readline().strip())
-        threshold = float(par.readline().strip())
-        x_origin = float(par.readline().strip())
-        y_origin = float(par.readline().strip())
-        z_origin = float(par.readline().strip())
-        cn_symmetry = float(par.readline().strip())
-        par.close()
+        with open('param.txt', 'r') as par:
+            resolution = float(par.readline().strip())
+            spacing = float(par.readline().strip())
+            threshold = float(par.readline().strip())
+            x_origin = float(par.readline().strip())
+            y_origin = float(par.readline().strip())
+            z_origin = float(par.readline().strip())
+            cn_symmetry = float(par.readline().strip())
 
         script = """
 module load Sali
