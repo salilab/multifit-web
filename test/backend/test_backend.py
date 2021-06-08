@@ -11,6 +11,15 @@ import subprocess
 class PostProcessTests(saliweb.test.TestCase):
     """Check postprocessing functions"""
 
+    def test_run_ok(self):
+        """Test successful run method"""
+        j = self.make_test_job(multifit.Job, 'RUNNING')
+        with saliweb.test.working_directory(j.directory):
+            with open('param.txt', 'w') as fh:
+                fh.write("11.5\n2.7\n0.852\n-50\n-50\n-50\n7\n")
+            cls = j.run()
+            self.assertIsInstance(cls, saliweb.backend.SGERunner)
+
     def test_archive(self):
         """Test archive function"""
         # Make a Multifit Job test job in ARCHIVED state
