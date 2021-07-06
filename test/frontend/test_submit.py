@@ -1,5 +1,6 @@
 import unittest
 import saliweb.test
+import tempfile
 import os
 import re
 
@@ -20,7 +21,7 @@ class Tests(saliweb.test.TestCase):
 
     def test_submit_page(self):
         """Test submit page"""
-        with saliweb.test.temporary_directory() as t:
+        with tempfile.TemporaryDirectory() as t:
             incoming = os.path.join(t, 'incoming')
             os.mkdir(incoming)
             multifit.app.config['DIRECTORIES_INCOMING'] = incoming
@@ -55,7 +56,7 @@ class Tests(saliweb.test.TestCase):
 
     def _check_submit(self, data, input_map='default', input_pdb='default',
                       with_atom=True):
-        with saliweb.test.temporary_directory() as t:
+        with tempfile.TemporaryDirectory() as t:
             incoming = os.path.join(t, 'incoming')
             os.mkdir(incoming)
             multifit.app.config['DIRECTORIES_INCOMING'] = incoming
