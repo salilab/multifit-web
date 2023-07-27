@@ -129,6 +129,7 @@ class PostProcessTests(saliweb.test.TestCase):
             finally:
                 subprocess.check_call = old_call
             self.assertEqual(len(cmds), 2)
+            cmds = sorted(cmds)
             for i in range(2):
                 self.assert_re(
                     cmds[i],
