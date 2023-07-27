@@ -106,8 +106,9 @@ class PostProcessTests(saliweb.test.TestCase):
                 j.generate_all_chimerax()
             finally:
                 multifit.Job.generate_chimerax = old_generate
-            self.assertEqual(calls, [('asmb.model.0.pdb', False),
-                                     ('asmb.model.1.pdb', False)])
+            self.assertEqual(sorted(calls),
+                             [('asmb.model.0.pdb', False),
+                              ('asmb.model.1.pdb', False)])
 
     def test_generate_image_thumbnail(self):
         """Test generate_image_thumbnail method"""
