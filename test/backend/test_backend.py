@@ -59,11 +59,6 @@ class PostProcessTests(saliweb.test.TestCase):
             "Contents of file %s (%s) do not match regex %s"
             % (fname, contents, regex))
 
-    def assert_re(self, txt, regex):
-        self.assertTrue(
-            re.search(regex, txt),
-            "Text %s does not match regex %s" % (txt, regex))
-
     def test_postprocess(self):
         """Test postprocess method"""
         j = self.make_test_job(multifit.Job, 'RUNNING')
@@ -131,7 +126,7 @@ class PostProcessTests(saliweb.test.TestCase):
             self.assertEqual(len(cmds), 2)
             cmds = sorted(cmds)
             for i in range(2):
-                self.assert_re(
+                self.assertRegex(
                     cmds[i],
                     r'molauto asmb\.model\.%d\.pdb .*molscript \-r .*'
                     r'render \-size 50x50 \-jpeg > asmb\.model\.%d\.jpg'
