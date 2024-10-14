@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Tjioe"
+  given-names: "Elina"
+- family-names: "Lasker"
+  given-names: "Keren"
+- family-names: "Webb"
+  given-names: "Ben"
+- family-names: "Wolfson"
+  given-names: "Haim J"
+- family-names: "Sali"
+  given-names: "Andrej"
+title: "MultiFit"
+url: "https://github.com/salilab/multifit-web"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Tjioe"
+    given-names: "Elina"
+  - family-names: "Lasker"
+    given-names: "Keren"
+  - family-names: "Webb"
+    given-names: "Ben"
+  - family-names: "Wolfson"
+    given-names: "Haim J"
+  - family-names: "Sali"
+    given-names: "Andrej"
+  doi: "10.1093/nar/gkr490"
+  journal: "Nucleic Acids Res"
+  month: 7
+  start: "W167"
+  end: "W170"
+  title: "MultiFit: a web server for fitting multiple protein structures into their electron microscopy density map"
+  volume: 39
+  year: 2011
